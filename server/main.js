@@ -118,5 +118,7 @@ async function main(ws, data) {
        
     }else if (data.type === "buyStock"){
         await connection(JSON.stringify({type:'buyStock',name:data.name,amount:data.amount,id:data.id}),"192.168.0.16:5003")
+    }else if (data.type === "sellStock"){
+        await connection(JSON.stringify({type:'sellStock',name:data.name,amount:data.amount,id:data.id}),"192.168.0.16:5003")
     }
 }

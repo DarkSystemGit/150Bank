@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./../css/uikit.min.css" />
+    <link rel="stylesheet" href="./../css/login-page.css">
+    <script defer src="./../js/signUp.js"></script>
+
+    <!-- UIkit JS -->
+    <script src="./../js/uikit.min.js"></script>
+    <script src="./../js/uikit-icons.min.js"></script>
+</head>
+
+<body>
+    <nav class="uk-navbar-container navbar" uk-navbar>
+        <div class="uk-navbar-left" style="margin-left: 20px">
+            <ul class="uk-navbar-nav">
+                <li class="uk-parent">
+                    <a href="">Home</a>
+                </li>
+                <li class="uk-parent">
+                    <a href="">Bank</a>
+                </li>
+                <li class="uk-parent">
+                    <a href=" ">Stocks</a>
+                </li>
+                <li class="uk-parent">
+                    <a href=" ">Market</a>
+                </li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right" style="margin-right: 20px">
+            <ul class="uk-navbar-nav">
+
+                <li class="uk-parent">
+                    <a href="./login.html">Login</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <main id="main-holder">
+        <h1 id="login-header">Sign Up</h1>
+
+        <div id="login-error-msg-holder">
+            <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+        </div>
+
+        <form id="login-form">
+            <input type="text" name="name" id="name-field" class="login-form-field" placeholder="Your Name (e.g. John Doe)">
+            <input type="text" name="email" id="email-field" class="login-form-field" placeholder="Your Email">
+            <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+            <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+            <input type="submit" value="Sign Up" id="login-form-submit">
+        </form>
+
+    </main>
+</body>
+
+</html>

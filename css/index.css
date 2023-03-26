@@ -1,0 +1,48 @@
+.button {
+    height: 50px;
+    width: 100px;
+    border-radius: 15px;
+    background-color: rgb(28, 126, 255);
+}
+
+.buttonContainer {
+    position: absolute;
+    left: 40%;
+    bottom: 40%;
+}
+
+.buttonText {
+    color: white;
+    height: fit-content;
+}
+
+.signUp {
+    width: 80px;
+    position: absolute;
+    right: 1%;
+    top: 0.05%;
+    right: 2.8%;
+}
+
+.logo {
+    height: 250px;
+    width: 250px;
+    position: absolute;
+    top: 20%;
+    left: 40.5%
+}
+
+.createStock {
+    display: block;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    width: 15%;
+    height: 10vh;
+}
+
+.plus {
+    color: white
+}

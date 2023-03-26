@@ -1,0 +1,24 @@
+{
+  "name": "dogebank",
+  "version": "1.0.0",
+  "description": "doge powered bank",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "doge",
+    "bank"
+  ],
+  "author": "darksystem",
+  "license": "ISC",
+  "dependencies": {
+    "ContentTools": "^1.6.16",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "formidable": "^2.1.1",
+    "http-errors": "^2.0.0",
+    "morgan": "^1.10.0",
+    "ws": "^8.12.1"
+  }
+}

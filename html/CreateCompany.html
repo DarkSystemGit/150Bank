@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./../css/uikit.min.css" />
+    <link rel="stylesheet" href="./../css/login-page.css">
+    <script defer src="./../js/createComp.js">
+    </script>
+
+    <!-- UIkit JS -->
+    <script src="./../js/uikit.min.js">
+    </script>
+    <script src="./../js/uikit-icons.min.js"></script>
+</head>
+
+<body>
+    <nav class="uk-navbar-container navbar" uk-navbar>
+        <div class="uk-navbar-left" style="margin-left: 20px">
+            <ul class="uk-navbar-nav">
+                <li class="uk-parent">
+                    <a href="">Home</a>
+                </li>
+                <li class="uk-parent">
+                    <a href="">Bank</a>
+                </li>
+                <li class="uk-parent">
+                    <a href=" ">Stocks</a>
+                </li>
+                <li class="uk-parent">
+                    <a href=" ">Market</a>
+                </li>
+            </ul>
+        </div>
+        <div class="uk-navbar-right" style="margin-right: 20px">
+            <ul class="uk-navbar-nav">
+
+                <li class="uk-parent">
+                    <a href="./login.html">Login</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+    <main id="main-holder" class="uk-inline">
+        <div style="margin-right:20%;height:fit-content; width:fit-content;">
+            <h1 id=" login-header " class="uk-position-left">Create Company</h1>
+
+
+            <form fliller="" id="login-form " class="uk-position-center-left ">
+                Company Name:<input type="text " name="name " id="name-field" class="login-form-field " placeholder=""> <br>Description:<input type="text " name="description " id="dic-field" class="login-form-field " placeholder=""><br> Icon:
+
+                <span uk-icon="icon: cloud-upload "></span>
+                <div uk-form-custom class="js-upload">
+                    <input type="file" id="fileUpload" accept="image/*">
+                    <span class="uk-link">or select one</span>
+                </div>
+
+
+
+                <progress id="js-progressbar" class="uk-progress " value="0 " max="100 " hidden></progress>
+
+               
+                <br>
+
+                <br> <div type="submit"  value="Create" id="company-form-submit" style="height: 2em; width: 30%;padding: 7px;border: none;border-radius: 5px;color: white;font-weight: bold;background-color: #3a3a3a;cursor: pointer;outline: none;">
+                    Create
+                </div>
+            </form>
+        </div>
+
+
+
+    </main>
+</body>
+
+</html>

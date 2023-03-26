@@ -5,24 +5,25 @@
             "Username": "test",
             "Password": "tesr",
             "Companies": ["test", "tes"],
-            "Stocks": [],
-            "Money": 0
+            "Stocks": {},
+            "Balance": 0
+            
         },
         "darksystem": {
             "Name": "Aliou",
             "Username": "darksystem",
             "Password": "6f2vUNufNzPumST",
             "Companies": [],
-            "Stocks": [],
-            "Money": 0
+            "Stocks": {},
+            "Balance": 0
         },
         "random": {
             "Name": "bob",
             "Username": "random",
             "Password": "test",
             "Companies": [],
-            "Stocks": [],
-            "Money": 0
+            "Stocks": {},
+            "Balance": 0
         }
     },
     "Companies": {

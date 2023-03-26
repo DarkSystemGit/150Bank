@@ -23,7 +23,9 @@ wss.on('connection', function connection(ws) {
       ws.send('done')
     }else if(data.type ==='buyStock'){
       var user = users[data.id][1]
-      
+      var compName = data.name
+      user.Stocks[compName]= 100*(data.amount*[database.Companies[data.name].worth/database.Companies[data.name].stocks])/database.Companies[data.name].worth
+      database.Companies[data.name].stocks+user.Stocks[compName]
     }
   });
 

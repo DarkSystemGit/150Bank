@@ -39,8 +39,8 @@ async function main(ws, data) {
             Password: data.password,
             Email: data.email,
             Companies: [],
-            Stocks: [],
-            Money: 0
+            Stocks: {},
+            Balance: 0
         }
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         database.Users[data.username] = user
@@ -117,6 +117,6 @@ async function main(ws, data) {
         }
        
     }else if (data.type === "buyStock"){
-        await connection(JSON.stringify({type:'buyStock',name:data.name,id:data.id}),"192.168.0.16:5003")
+        await connection(JSON.stringify({type:'buyStock',name:data.name,amount:data.amount,id:data.id}),"192.168.0.16:5003")
     }
 }

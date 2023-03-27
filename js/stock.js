@@ -49,9 +49,9 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
 </div>`
 
     elm.innerHTML = `${elm.innerHTML}${card}`
-
-    document.getElementById(`${name}Button`).addEventListener('click', button)
-
+        
+    document.getElementById(`${name}Button`).onclick= button
+    console.log(document.getElementById(`${name}Button`).click())
 }
 async function connection(message, url) {
     return new Promise((resolve, reject) => {
@@ -95,7 +95,7 @@ async function generateCompanyCard(name, button, cardPos, times) {
         //console.log(heightCounter)
         await generateCompanyCard(companies[counter], async function() {
             console.log('click');
-            await connection(JSON.stringify({ type: "buyShare", name: companies[counter], id:sessionStorage.getItem('sessionId') }), '192.168.0.16:5002')
+            await connection(JSON.stringify({ type: "buyStock", name: companies[counter], amount:1,id:sessionStorage.getItem('sessionId') }), '192.168.0.16:5003')
         }, [heightCounter, multiple(counter+1,4)])
         heightCounter++
     }

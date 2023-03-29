@@ -30,9 +30,9 @@ wss.on('connection', function connection(ws) {
             user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
             database.Companies[data.name].stocks += data.amount
             user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
-            if (user.Stocks[compName] < 50) {
+            if (user.Stocks[compName] > 50) {
                 user.Companies.push(data.name)
-            } else if (user.Companies.includes(data.name) && user.Stocks[compName] >= 50) {
+            } else if (user.Companies.includes(data.name) && user.Stocks[compName] <= 50) {
                 user.Companies.splice(user.Companies.indexOf(data.name), 1)
             }
             database.Users[user.Username] = user
@@ -97,7 +97,7 @@ wss.on('connection', function connection(ws) {
             //database.Companies[data.name].stocks += data.amount
             user.Balance -= data.amount * database.Companies[data.name].products[data.product].price
             var orderId = createUuid()
-            user.orders[data.name].push({product:data.product,id:orderId})
+            user.orders[data.name].push({product:data.product,id:orderId,company:data.name,price:data.amount * database.Companies[data.name].products[data.product].price})
             database.Companies[data.name].orders[orderId]={
                 'amount':data.amount,
                 'price':data.amount * database.Companies[data.name].products[data.product].price,
@@ -122,7 +122,10 @@ wss.on('connection', function connection(ws) {
             console.log(users)
             var user = users[data.id][1]
             var compName = data.name
-            
+            var order = database.Companies[user.name].orders[data.orderId]
+            order.status = 'delivered'
+            var owner = database.Users[database.Companies[data.name].owner]
+            owner.Balance += order.cost
             database.Users[user.Username] = user
             console.log(user)
             fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))

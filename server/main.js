@@ -120,5 +120,16 @@ async function main(ws, data) {
         await connection(JSON.stringify({type:'buyStock',name:data.name,amount:data.amount,id:data.id}),"192.168.0.16:5003")
     }else if (data.type === "sellStock"){
         await connection(JSON.stringify({type:'sellStock',name:data.name,amount:data.amount,id:data.id}),"192.168.0.16:5003")
-    }
+    }else if(data.type==='listProducts'){
+            
+        var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))    
+        var products =[]
+        var comps = Object.keys(database.Companies)
+       for(var counter;counter<comps.length;counter++){
+        products.push(...Object.keys(database.Companies[comps[counter]].products))
+       }
+
+ 
+        ws.send(JSON.stringify(products))
+    }  
 }

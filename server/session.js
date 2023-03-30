@@ -130,7 +130,7 @@ wss.on('connection', function connection(ws) {
             console.log(user)
             fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
             ws.send(JSON.stringify({order:orderId,status:'delivered'}))
-        } 
+        }
     });
 
 

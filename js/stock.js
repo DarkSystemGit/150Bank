@@ -32,9 +32,18 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         
         setInterval(async function() {
             var elm = document.getElementById("${name}Editible")
-            var prices = await connection(JSON.stringify({ type: "pricesList", name: "" }), "192.168.0.16:5002")
+            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002")
             elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1]
         }, 40)
+        document.getElementById('${name}Amount-field').addEventListener('change',async ()=>{
+            var elm = document.getElementById("${name}Cost")
+            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002")
+            elm.innerHTML = "Cost: $"+prices*document.getElementById('${name}Amount-field').value
+        })
+        document.getElementById('${name}-form-submit').addEventListener('click',async ()=>{
+            var elm = document.getElementById("${name}Amount-field")
+            await connection(JSON.stringify({ type: "buyStocks", name: "${name}",amount: elm.value, id:sessionStorage.getItem('sessionId') }), "192.168.0.16:5002")
+        })
         </script>
         <p id="${name}Editable">
             <h4>Description:</h4>${description}
@@ -44,8 +53,25 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
 
     </div>
     <div class="uk-card-footer">
-        <a class="uk-button uk-button-text" id="${name}Button">Buy Now</a>
+        <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button">Buy</a>
     </div>
+    <div id="buy${name}Card" uk-modal class="uk-modal uk-open">
+        <div class="uk-modal-dialog uk-modal-body" role="dialog" aria-modal="true">
+            <button class="uk-modal-close-default uk-icon uk-close" type="button" uk-close="" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title" style="margin-left: 43%;">Buy</h2>
+        </div>
+            
+           
+            <form fliller="" id="buy${name}Form" class=" " style="margin-top: 10%;">
+                Amount:<input type="text" value="1" name="amount" id="${name}Amount-field" class="login-form-field " placeholder="Write the amount of stocks you want to buy here"><br>  
+                <div class="uk-divider-small:after"></div>
+                <br><div id="${name}Cost">Cost: $0</div> <br>
+                <input type="submit" value="Buy" id="${name}-form-submit" style="height: 3em; width: 40%;padding: 7px;border: none;border-radius: 5px;color: white;font-weight: bold;background-color: #3a3a3a;cursor: pointer;outline: none;">
+                    
+                </form></div>
+            
+        </div>
 </div>`
 
     elm.innerHTML = `${elm.innerHTML}${card}`
@@ -95,7 +121,6 @@ async function generateCompanyCard(name, button, cardPos, times) {
         //console.log(heightCounter)
         await generateCompanyCard(companies[counter], async function() {
             console.log('click');
-            await connection(JSON.stringify({ type: "buyStock", name: companies[counter], amount:1,id:sessionStorage.getItem('sessionId') }), '192.168.0.16:5003')
         }, [heightCounter, multiple(counter+1,4)])
         heightCounter++
     }

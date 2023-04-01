@@ -17,57 +17,54 @@
 </head>
 
 <body>
-    <nav class="uk-navbar-container navbar" uk-navbar>
+    <nav class="uk-navbar-container navbar uk-navbar" uk-navbar="" role="menubar">
         <div class="uk-navbar-left" style="margin-left: 20px">
-            <ul class="uk-navbar-nav">
-                <li class="uk-parent">
-                    <a href="">Home</a>
+            <ul class="uk-navbar-nav" role="group">
+                <li class="uk-parent" role="presentation">
+                    <a href="" tabindex="0" role="menuitem">Home</a>
                 </li>
-                <li class="uk-parent">
-                    <a href="">Bank</a>
+                <li class="uk-parent" role="presentation">
+                    <a href="" tabindex="-1" role="menuitem">Bank</a>
                 </li>
-                <li class="uk-parent">
-                    <a href=" ">Stocks</a>
+                <li class="uk-parent" role="presentation">
+                    <a href=" " tabindex="-1" role="menuitem">Stocks</a>
                 </li>
-                <li class="uk-parent">
-                    <a href=" ">Market</a>
+                <li class="uk-parent" role="presentation">
+                    <a href=" " tabindex="-1" role="menuitem">Market</a>
                 </li>
             </ul>
         </div>
         <div class="uk-navbar-right" style="margin-right: 20px">
-            <ul class="uk-navbar-nav">
+            <ul class="uk-navbar-nav" role="group">
 
-                <li class="uk-parent">
-                    <a href="./login.html">Login</a>
+                <li class="uk-parent" role="presentation">
+                    <a href="./login.html" tabindex="-1" role="menuitem">Login</a>
                 </li>
 
             </ul>
         </div>
     </nav>
-    <main id="main-holder" class="uk-inline">
-        <div style="margin-right:20%;height:fit-content; width:fit-content;">
-            <h1 id="login-header" class="uk-position-left">Buy</h1>
-            <div class="" id="login-form">
-                <div class="uk-width-auto">
-                    <img class="uk-border-square" width="40" height="40" src="./../images/DogeBaNk.png" alt="Company Logo">
-                </div>
-                <div>
-                    <h2 class="uk-card-title uk-margin-remove-bottom">Company:</h2>
-                    <h3 class="uk-card-title uk-margin-remove-bottom">${name}</h3>
-                </div>
-            </div>
-            <div style="height:10%;"></div>
-            <form fliller="" id="login-form" class=" ">
-                Amount:<input type="text " name="amount" id="amount-field" class="login-form-field " placeholder=""> 
-                <br> <div type="submit"  value="Create" id="company-form-submit" style="height: 2em; width: 30%;padding: 7px;border: none;border-radius: 5px;color: white;font-weight: bold;background-color: #3a3a3a;cursor: pointer;outline: none;">
-                    Buy
-                </div>
-            </form>
+    
+
+
+
+
+<div id="buyCard" uk-modal="" class="uk-modal uk-open" style="display: block;" tabindex="-1">
+        <div class="uk-modal-dialog uk-modal-body" role="dialog" aria-modal="true">
+            <button class="uk-modal-close-default uk-icon uk-close" type="button" uk-close="" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
+        <div class="uk-modal-header">
+            <h2 class="uk-modal-title" style="margin-left: 43%;">Buy</h2>
         </div>
-
-
-
-    </main>
-</body>
+            
+           
+            <form fliller="" id="login-form" class=" " style="margin-top: 10%;">
+                Amount:<input type="text " name="amount" id="amount-field" class="login-form-field " placeholder=""><br>  
+                <div class="uk-divider-small:after"></div>
+                <br><div id="Cost">Cost: $0</div> <br>
+                 <input type="submit" value="Buy" id="company-form-submit" style="height: 3em; width: 40%;padding: 7px;border: none;border-radius: 5px;color: white;font-weight: bold;background-color: #3a3a3a;cursor: pointer;outline: none;">
+                    
+                </form></div>
+            
+        </div></body>
 
 </html>

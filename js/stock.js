@@ -55,7 +55,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
     </div>
     <div class="uk-card-footer">
         <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button" onClick="  console.log('ElmClick');
-        UIkit.modal(document.getElementById("buy${next}Card")).show();">Buy</a>
+        UIkit.modal(document.getElementById("buy${name}Card")).show();">Buy</a>
     </div>
     
 </div>

@@ -54,7 +54,8 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
 
     </div>
     <div class="uk-card-footer">
-        <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button" uk-toggle onClick="console.log('click')">Buy</a>
+        <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button" onClick="  console.log('ElmClick');
+        UIkit.modal(document.getElementById("buy${next}Card")).show();">Buy</a>
     </div>
     
 </div>
@@ -122,7 +123,7 @@ async function generateCompanyCard(name, button, cardPos, times) {
         }
         //console.log(heightCounter)
         await generateCompanyCard(companies[counter], async function() {
-            console.log('click');
+            console.log('ElmClick');
             UIkit.modal(document.getElementById(`buy${companies[counter]}Card`)).show();
         }, [heightCounter, multiple(counter+1,4)])
         heightCounter++

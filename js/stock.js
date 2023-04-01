@@ -17,34 +17,26 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         <script>
         async function connection(message, url) {
             return new Promise((resolve, reject) => {
-                var socket = new WebSocket("ws://" + url + " ");
-                socket.onopen = () => {
-                    socket.send(message);
-                };
-                socket.onmessage = (event) => {
-                    resolve(event.data);
-                };
-                socket.onerror = (error) => {
-                    reject(error);
-                };
+              var socket = new WebSocket("ws://" + url + " ");
+              socket.onopen = () => {
+                socket.send(message);
+              };
+              socket.onmessage = (event) => {
+                resolve(event.data);
+              };
+              socket.onerror = (error) => {
+                reject(error);
+              };
             });
-        }
-        
-        setInterval(async function() {
+          }
+          
+          setInterval(async function() {
             var elm = document.getElementById("${name}Editible");
             var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002");
             elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1];
-        }, 40);
-        document.getElementById('${name}Amount-field').addEventListener('change',async ()=>{
-            var elm = document.getElementById("${name}Cost");
-            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002");
-            elm.innerHTML = "Cost: $"+prices*document.getElementById('${name}Amount-field').value;
-        });
-        document.getElementById('${name}-form-submit').addEventListener('click',async ()=>{
-            var elm = document.getElementById("${name}Amount-field");
-            console.log('click');
-            await connection(JSON.stringify({ 'type': "buyStocks", 'name': "${name}",'amount': elm.value, 'i'd:sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
-        });
+          }, 40);
+          
+          
         </script>
         <p id="${name}Editable">
             <h4>Description:</h4>${description}
@@ -75,9 +67,24 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
                 </form></div>
             
         </div>`
-
-    elm.innerHTML = `${elm.innerHTML}${card}`
         
+    elm.innerHTML = `${elm.innerHTML}${card}`
+    document.getElementById(`${name}Amount-field`).addEventListener('change',async ()=>{
+        var elm = document.getElementById(`${name}Cost`);
+        var prices = await connection(JSON.stringify({ type: "pricesList", name: name }), "192.168.0.16:5002");
+        elm.innerHTML = "Cost: $"+prices*document.getElementById(`${name}Amount-field`).value;
+      });
+      document.getElementById(`buy${name}Form`).addEventListener('submit', async function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+    
+        var elm = document.getElementById(`${name}Amount-field`);
+        console.log('click');
+        await connection(JSON.stringify({ 'type': "buyStocks", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+      });
+      
+     
+          
     document.getElementById(`${name}Button`).onclick= button
     console.log(document.getElementById(`${name}Button`))
 }

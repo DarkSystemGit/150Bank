@@ -79,7 +79,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
     elm.innerHTML = `${elm.innerHTML}${card}`
         
     document.getElementById(`${name}Button`).onclick= button
-    console.log(document.getElementById(`${name}Button`).click())
+    console.log(document.getElementById(`${name}Button`))
 }
 async function connection(message, url) {
     return new Promise((resolve, reject) => {

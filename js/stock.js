@@ -42,6 +42,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         })
         document.getElementById('${name}-form-submit').addEventListener('click',async ()=>{
             var elm = document.getElementById("${name}Amount-field")
+            console.log('click')
             await connection(JSON.stringify({ type: "buyStocks", name: "${name}",amount: elm.value, id:sessionStorage.getItem('sessionId') }), "192.168.0.16:5002")
         })
         </script>
@@ -53,9 +54,11 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
 
     </div>
     <div class="uk-card-footer">
-        <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button">Buy</a>
+        <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button" uk-toggle onClick="console.log('click')">Buy</a>
     </div>
-    <div id="buy${name}Card" uk-modal class="uk-modal uk-open">
+    
+</div>
+<div id="buy${name}Card"  class="uk-modal uk-open" uk-modal>
         <div class="uk-modal-dialog uk-modal-body" role="dialog" aria-modal="true">
             <button class="uk-modal-close-default uk-icon uk-close" type="button" uk-close="" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
         <div class="uk-modal-header">
@@ -71,8 +74,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
                     
                 </form></div>
             
-        </div>
-</div>`
+        </div>`
 
     elm.innerHTML = `${elm.innerHTML}${card}`
         
@@ -121,6 +123,7 @@ async function generateCompanyCard(name, button, cardPos, times) {
         //console.log(heightCounter)
         await generateCompanyCard(companies[counter], async function() {
             console.log('click');
+            UIkit.modal(document.getElementById(`buy${companies[counter]}Card`)).show();
         }, [heightCounter, multiple(counter+1,4)])
         heightCounter++
     }

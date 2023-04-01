@@ -31,20 +31,20 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         }
         
         setInterval(async function() {
-            var elm = document.getElementById("${name}Editible")
-            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002")
-            elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1]
-        }, 40)
+            var elm = document.getElementById("${name}Editible");
+            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002");
+            elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1];
+        }, 40);
         document.getElementById('${name}Amount-field').addEventListener('change',async ()=>{
-            var elm = document.getElementById("${name}Cost")
-            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002")
-            elm.innerHTML = "Cost: $"+prices*document.getElementById('${name}Amount-field').value
-        })
+            var elm = document.getElementById("${name}Cost");
+            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002");
+            elm.innerHTML = "Cost: $"+prices*document.getElementById('${name}Amount-field').value;
+        });
         document.getElementById('${name}-form-submit').addEventListener('click',async ()=>{
-            var elm = document.getElementById("${name}Amount-field")
-            console.log('click')
-            await connection(JSON.stringify({ type: "buyStocks", name: "${name}",amount: elm.value, id:sessionStorage.getItem('sessionId') }), "192.168.0.16:5002")
-        })
+            var elm = document.getElementById("${name}Amount-field");
+            console.log('click');
+            await connection(JSON.stringify({ 'type': "buyStocks", 'name': "${name}",'amount': elm.value, 'i'd:sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+        });
         </script>
         <p id="${name}Editable">
             <h4>Description:</h4>${description}

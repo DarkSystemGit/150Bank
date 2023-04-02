@@ -82,7 +82,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
     
         var elm = document.getElementById(`${name}Amount-field`);
         console.log('click');
-        await connection(JSON.stringify({ 'type': "buyStocks", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+        await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
       });
       
      

@@ -1,4 +1,4 @@
-function generateCompanyCardBack(name, image, worth, stocks, description, button, cardPos) {
+async function generateCompanyCardBack(name, image, worth, stocks, description, button, cardPos) {
 
     var elm = document.getElementById('cards')
     var card = `<div style="grid-column:${cardPos[0]};grid-row:${cardPos[1]};margin:2%;" id="${name}Card" class="uk-card uk-card-default" >
@@ -77,16 +77,12 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         elm.innerHTML = "Cost: $"+prices*document.getElementById(`${name}Amount-field`).value;
       });
       console.log(document.getElementById(`buy${name}Form`))
-      document.getElementById(`${name}-form-submit`).addEventListener('click', async function(event) {
-        // Prevent the default form submission behavior
-        debugger
-        event.preventDefault();
-    
-        var elm = document.getElementById(`${name}Amount-field`);
+      var handle = async function(){var elm = document.getElementById(`${name}Amount-field`);
         console.log('click');
         debugger;
-        await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
-      });
+        await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");}
+        await handle()
+      document.getElementById(`${name}-form-submit`).addEventListener('click', async function(e){e.preventDefault();await handle()});
       
      
           

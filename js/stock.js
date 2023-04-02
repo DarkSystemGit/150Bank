@@ -69,12 +69,14 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
 `
         
 elm.innerHTML = `${elm.innerHTML}${card}`;
-document.getElementById(`${name}Amount-field`).addEventListener('change', async () => {
-  var elm = document.getElementById(`${name}Cost`);
-  var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
-  prices = price.worth / prices.stocks;
-  console.log(prices);
-  elm.innerHTML = "Cost: $" + prices * document.getElementById(`${name}Amount-field`).value;
+document.addEventListener('change', async (e) => {
+   
+        if(e.target && e.target.id.includes(`${name}Amount-field`)){  var elm = document.getElementById(`${name}Cost`);
+        var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
+        prices = price.worth / prices.stocks;
+        console.log(prices);
+        elm.innerHTML = "Cost: $" + prices * document.getElementById(`${name}Amount-field`).value;}
+
 });
 
 console.log(document.getElementById(`buy${name}Form`));

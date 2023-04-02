@@ -28,6 +28,7 @@ wss.on('connection', function connection(ws) {
             var user = users[data.id][1]
             var compName = data.name
             user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
+            console.log(user.Stocks[compName])
             database.Companies[data.name].stocks += data.amount
             user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
             if (user.Stocks[compName] > 50) {

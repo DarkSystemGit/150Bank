@@ -48,9 +48,7 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
     <div class="uk-card-footer">
         <a class="uk-button uk-button-text" herf="#buy${name}Card" id="${name}Button" onClick="UIkit.modal(document.getElementById('buy${name}Card')).show();" >Buy</a>
     </div>
-    
-</div>
-<div id="buy${name}Card"  class="uk-modal uk-open" uk-modal>
+    <div id="buy${name}Card"  class="uk-modal uk-open" uk-modal>
         <div class="uk-modal-dialog uk-modal-body" role="dialog" aria-modal="true">
             <button class="uk-modal-close-default uk-icon uk-close" type="button" uk-close="" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg"><line fill="none" stroke="#000" stroke-width="1.1" x1="1" y1="1" x2="13" y2="13"></line><line fill="none" stroke="#000" stroke-width="1.1" x1="13" y1="1" x2="1" y2="13"></line></svg></button>
         <div class="uk-modal-header">
@@ -66,24 +64,39 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
                     
                 </form></div>
             
-        </div>`
+        </div>
+</div>
+`
         
-    elm.innerHTML = `${elm.innerHTML}${card}`
-    document.getElementById(`${name}Amount-field`).addEventListener('change',async ()=>{
-        var elm = document.getElementById(`${name}Cost`);
-        var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
-        prices= price.worth/prices.stocks
-        console.log(prices)
-        elm.innerHTML = "Cost: $"+prices*document.getElementById(`${name}Amount-field`).value;
-      });
-      console.log(document.getElementById(`buy${name}Form`))
-      var handle = async function(){var elm = document.getElementById(`${name}Amount-field`);
-        console.log('click');
-        debugger;
-        await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");}
-        await handle()
-      document.getElementById(`${name}-form-submit`).addEventListener('click', async function(e){e.preventDefault();await handle()});
-      
+elm.innerHTML = `${elm.innerHTML}${card}`;
+document.getElementById(`${name}Amount-field`).addEventListener('change', async () => {
+  var elm = document.getElementById(`${name}Cost`);
+  var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
+  prices = price.worth / prices.stocks;
+  console.log(prices);
+  elm.innerHTML = "Cost: $" + prices * document.getElementById(`${name}Amount-field`).value;
+});
+
+console.log(document.getElementById(`buy${name}Form`));
+
+
+var form = 'buy'+name+'Form'
+document.addEventListener('submit', async function(e) {
+  
+    console.log(e.target.id)
+    e.preventDefault();
+    if(e.target && e.target.id.includes(name)){
+        var elm = document.getElementById(`${name}Amount-field`);
+  console.log('click');
+  
+  await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+    console.log('Form submitted');
+    UIkit.modal(document.getElementById('buy${name}Card')).hide();
+}
+    
+  });
+  
+
      
           
     //document.getElementById(`${name}Button`).onclick= button

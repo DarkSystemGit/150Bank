@@ -71,7 +71,9 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
     elm.innerHTML = `${elm.innerHTML}${card}`
     document.getElementById(`${name}Amount-field`).addEventListener('change',async ()=>{
         var elm = document.getElementById(`${name}Cost`);
-        var prices = await connection(JSON.stringify({ type: "pricesList", name: name }), "192.168.0.16:5002");
+        var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
+        prices= price.worth/prices.stocks
+        console.log(prices)
         elm.innerHTML = "Cost: $"+prices*document.getElementById(`${name}Amount-field`).value;
       });
       document.getElementById(`buy${name}Form`).addEventListener('submit', async function(event) {

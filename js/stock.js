@@ -58,7 +58,7 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         </div>
             
            
-            <form fliller="" id="buy${name}Form" class=" " style="margin-top: 10%;">
+            <form action="" id="buy${name}Form" class=" " style="margin-top: 10%;">
                 Amount:<input type="text" value="1" name="amount" id="${name}Amount-field" class="login-form-field " placeholder="Write the amount of stocks you want to buy here"><br>  
                 <div class="uk-divider-small:after"></div>
                 <br><div id="${name}Cost">Cost: $0</div> <br>
@@ -76,18 +76,21 @@ function generateCompanyCardBack(name, image, worth, stocks, description, button
         console.log(prices)
         elm.innerHTML = "Cost: $"+prices*document.getElementById(`${name}Amount-field`).value;
       });
-      document.getElementById(`buy${name}Form`).addEventListener('submit', async function(event) {
+      console.log(document.getElementById(`buy${name}Form`))
+      document.getElementById(`${name}-form-submit`).addEventListener('click', async function(event) {
         // Prevent the default form submission behavior
+        debugger
         event.preventDefault();
     
         var elm = document.getElementById(`${name}Amount-field`);
         console.log('click');
+        debugger;
         await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
       });
       
      
           
-    document.getElementById(`${name}Button`).onclick= button
+    //document.getElementById(`${name}Button`).onclick= button
     console.log(document.getElementById(`${name}Button`))
 }
 async function connection(message, url) {

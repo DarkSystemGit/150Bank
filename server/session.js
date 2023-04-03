@@ -165,7 +165,18 @@ wss.on('connection', function connection(ws) {
                 if(user.Companies.includes(data.name)){
                     database.Companies.stocks += data.amount
                 }else{ws.send('incorrect user')}
-            }
+            }else if (data.type === 'viewBalance'){
+                var user = users[data.id][1]
+                ws.send(JSON.stringify(user.Balance))
+            }else if (data.type === 'addBalance'){
+                var user = users[data.id][1]
+                user.Balance += parseFloat(data.amount)
+                ws.send('done')
+            }else if (data.type === 'subtractBalance'){
+                var user = users[data.id][1]
+                user.Balance -= parseFloat(data.amount)
+                ws.send('done')
+            }   
 
         } catch {
             ws.send('error')

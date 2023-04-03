@@ -101,7 +101,7 @@ document.addEventListener('submit', async function(e) {
   console.log('Form submitted');
   UIkit.modal(document.getElementById(`buy${name}Card`)).hide()
 }else{
-    var InvalidAmount = document.getElementById(`${name}ErrMsg`)
+    
     InvalidAmount.style.opacity = 1;
 }
   

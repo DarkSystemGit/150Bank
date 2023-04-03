@@ -1,7 +1,9 @@
 const WebSocketServer = require(`ws`);
 const path = require('path')
 const fs = require(`fs`)
-const wss = new WebSocketServer.Server({ port: 5003 });
+const wss = new WebSocketServer.Server({
+    port: 5003
+});
 var users = {};
 wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
@@ -10,7 +12,7 @@ wss.on('connection', function connection(ws) {
         console.log(data)
         data = JSON.parse(data)
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
-        try{
+        try {
             if (data.type === 'login') {
                 var user = [data.id, database.Users[data.name]]
                 users[data.id] = user
@@ -26,23 +28,30 @@ wss.on('connection', function connection(ws) {
             } else if (data.type === 'buyStock') {
                 console.log(JSON.stringify(data))
                 console.log(users)
-                var user = users[data.id][1]
-                var compName = data.name
-                data.amount = parseFloat(data.amount)
-                user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
-                
-                database.Companies[data.name].stocks += data.amount
-                user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
-                console.log(database.Companies[data.name])
-                if (user.Stocks[compName] > 50) {
-                    user.Companies.push(data.name)
-                } else if (user.Companies.includes(data.name) && user.Stocks[compName] <= 50) {
-                    user.Companies.splice(user.Companies.indexOf(data.name), 1)
+                if (parseFloat(data.amount) * (parseFloat(database.Companies[data.name].worth) / parseFloat(database.Companies[data.name].stocks)) >= parseFloat(database.Companies[data.name].worth)) {
+                    ws.send('too many')
+
+                } else {
+                    var user = users[data.id][1]
+
+                    var compName = data.name
+                    data.amount = parseFloat(data.amount)
+                    user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
+
+                    database.Companies[data.name].soldStocks += data.amount
+                    user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
+                    console.log(database.Companies[data.name])
+                    if (user.Stocks[compName] > 50) {
+                        user.Companies.push(data.name)
+                    } else if (user.Companies.includes(data.name) && user.Stocks[compName] <= 50) {
+                        user.Companies.splice(user.Companies.indexOf(data.name), 1)
+                    }
+                    database.Users[user.Username] = user
+                    console.log(user)
+                    fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
+                    ws.send('done')
                 }
-                database.Users[user.Username] = user
-                console.log(user)
-                //fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
-                ws.send('done')
+
             } else if (data.type === 'sellStock') {
                 var user = users[data.id][1]
                 var compName = data.name
@@ -62,38 +71,42 @@ wss.on('connection', function connection(ws) {
                 var user = users[data.id][1]
                 var products = database.Companies[data.company].products
                 var imageType;
-                if(data.image.includes('png')){
-                    imageType='png'
-                }else if(data.image.includes('jpeg')){
-                    imageType='jpeg'
-                }else if(data.image.includes('jpg')){
-                    imageType='jpg'
-                }else{
+                if (data.image.includes('png')) {
+                    imageType = 'png'
+                } else if (data.image.includes('jpeg')) {
+                    imageType = 'jpeg'
+                } else if (data.image.includes('jpg')) {
+                    imageType = 'jpg'
+                } else {
                     ws.send('error')
                 }
-                var image ={fileName:`${data.name}PrdtImg.${imageType}`,data:data.image.replace(`data:image/${imageType};base64,`,'')}
+                var image = {
+                    fileName: `${data.name}PrdtImg.${imageType}`,
+                    data: data.image.replace(`data:image/${imageType};base64,`, '')
+                }
                 fs.writeFileSync(`${__dirname.replace('/server','')}/images/Companies/${image.fileName}`, image.data, 'base64');
-                if (user.Companies.includes(data.company)){
-                    products[data.name]={
-                        'name':data.name,
-                        'image':image.fileName,
-                        'description':data.description, 
-                        'price':data.price
+                if (user.Companies.includes(data.company)) {
+                    products[data.name] = {
+                        'name': data.name,
+                        'image': image.fileName,
+                        'description': data.description,
+                        'price': data.price
                     }
                 }
                 database.Users[user.Username] = user
                 console.log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
-    
-    
-            }else if (data.type === 'orderProduct') {
+
+
+            } else if (data.type === 'orderProduct') {
                 function createUuid() {
-                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                      return v.toString(16);
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                        var r = Math.random() * 16 | 0,
+                            v = c == 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
                     });
-                  }
+                }
                 console.log(JSON.stringify(data))
                 console.log(users)
                 var user = users[data.id][1]
@@ -102,27 +115,36 @@ wss.on('connection', function connection(ws) {
                 //database.Companies[data.name].stocks += data.amount
                 user.Balance -= data.amount * database.Companies[data.name].products[data.product].price
                 var orderId = createUuid()
-                user.orders[data.name].push({product:data.product,id:orderId,company:data.name,price:data.amount * database.Companies[data.name].products[data.product].price})
-                database.Companies[data.name].orders[orderId]={
-                    'amount':data.amount,
-                    'price':data.amount * database.Companies[data.name].products[data.product].price,
-                    'user':user.Username,
-                    'product':data.product,
-                    'status':'ordered'
+                user.orders[data.name].push({
+                    product: data.product,
+                    id: orderId,
+                    company: data.name,
+                    price: data.amount * database.Companies[data.name].products[data.product].price
+                })
+                database.Companies[data.name].orders[orderId] = {
+                    'amount': data.amount,
+                    'price': data.amount * database.Companies[data.name].products[data.product].price,
+                    'user': user.Username,
+                    'product': data.product,
+                    'status': 'ordered'
                 }
                 var owner = database.Users[database.Companies[data.name].owner]
                 var notifications = owner.Notifications.Companies[compName]
                 notifications.push({
-                    'type':'buyProduct',
-                'user':user.Username,'product':data.product,
-                'amount':data.amount,
-                'cost':data.amount * database.Companies[data.name].products[data.product].price
-            })
+                    'type': 'buyProduct',
+                    'user': user.Username,
+                    'product': data.product,
+                    'amount': data.amount,
+                    'cost': data.amount * database.Companies[data.name].products[data.product].price
+                })
                 database.Users[user.Username] = user
                 console.log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
-                ws.send(JSON.stringify({order:orderId,status:'ordered'}))
-            }else if(data.type==='buyProduct'){
+                ws.send(JSON.stringify({
+                    order: orderId,
+                    status: 'ordered'
+                }))
+            } else if (data.type === 'buyProduct') {
                 console.log(JSON.stringify(data))
                 console.log(users)
                 var user = users[data.id][1]
@@ -134,11 +156,21 @@ wss.on('connection', function connection(ws) {
                 database.Users[user.Username] = user
                 console.log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
-                ws.send(JSON.stringify({order:orderId,status:'delivered'}))
+                ws.send(JSON.stringify({
+                    order: orderId,
+                    status: 'delivered'
+                }))
+            }else if (data.type === 'emitStock') {
+                var user = users[data.id][1]
+                if(user.Companies.includes(data.name)){
+                    database.Companies.stocks += data.amount
+                }else{ws.send('incorrect user')}
             }
-    
-        }catch{ws.send('error')}
-            });
+
+        } catch {
+            ws.send('error')
+        }
+    });
 
 
 });

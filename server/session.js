@@ -176,6 +176,13 @@ wss.on('connection', function connection(ws) {
                 var user = users[data.id][1]
                 user.Balance -= parseFloat(data.amount)
                 ws.send('done')
+            }else if (data.type === 'viewUser'){
+                ws.send(JSON.stringify(users[data.id][1]))
+            }else if (data.type === 'editUser'){
+                users[data.id][1] = data.user
+                database.Users[user.Username] = data.user
+                console.log(user)
+                fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
             }   
 
         } catch {

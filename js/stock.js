@@ -95,8 +95,10 @@ document.addEventListener('submit', async function(e) {
         var elm = document.getElementById(`${name}Amount-field`);
   console.log('click');
   var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), "192.168.0.16:5002"));
-        console.log(prices)
-  if(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))>=parseFloat(prices.worth)){
+  console.log(elm.value)
+        console.log(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))<=parseFloat(prices.worth))
+  if(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))<=parseFloat(prices.worth)){
+    console.log('buy')
     await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
   console.log('Form submitted');
   UIkit.modal(document.getElementById(`buy${name}Card`)).hide()

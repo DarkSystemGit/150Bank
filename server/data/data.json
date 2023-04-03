@@ -4,12 +4,11 @@
             "Name": "bob",
             "Username": "test",
             "Password": "tesr",
-            "Companies": ["nextcloud"],
+            "Companies": ["nextcloud", "nextcloud"],
             "Stocks": {
-                "Dark System Technologies": 50,
-                "nextcloud": 200
+                "dogeBank": 9.514747859181732
             },
-            "Balance": 1000000000000000
+            "Balance": 9999999999941.914
         },
         "darksystem": {
             "Name": "Aliou",
@@ -34,7 +33,7 @@
             "image": "DogeBaNk.png",
             "description": "The company that powers your class's economy",
             "worth": 300,
-            "stocks": 1
+            "stocks": "10.511"
         },
         "Speed Art Corp": {
             "name": "Speed Art Corp",

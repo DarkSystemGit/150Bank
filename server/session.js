@@ -27,6 +27,7 @@ wss.on('connection', function connection(ws) {
             console.log(users)
             var user = users[data.id][1]
             var compName = data.name
+            data.amount = parseFloat(data.amount)
             user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
             console.log(user.Stocks[compName])
             database.Companies[data.name].stocks += data.amount
@@ -43,6 +44,7 @@ wss.on('connection', function connection(ws) {
         } else if (data.type === 'sellStock') {
             var user = users[data.id][1]
             var compName = data.name
+            data.amount = parseFloat(data.amount)
             user.Stocks[compName] -= 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
             database.Companies[data.name].stocks -= data.amount
             user.Balance += data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)

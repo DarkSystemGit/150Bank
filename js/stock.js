@@ -55,7 +55,9 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
             <h2 class="uk-modal-title" style="margin-left: 43%;">Buy</h2>
         </div>
             
-           
+    <div id="${name}ErrMsg" class="stock-error-msg-holder">
+        <p class="stock-error-msg">Invalid amount</p>
+    </div>
             <form action="" id="buy${name}Form" class=" " style="margin-top: 10%;">
                 Amount:<input type="text" value="1" name="amount" id="${name}Amount-field" class="login-form-field " placeholder="Write the amount of stocks you want to buy here"><br>  
                 <div class="uk-divider-small:after"></div>
@@ -71,9 +73,12 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
 elm.innerHTML = `${elm.innerHTML}${card}`;
 document.addEventListener('change', async (e) => {
    
-        if(e.target && e.target.id.includes(`${name}Amount-field`)){  var elm = document.getElementById(`${name}Cost`);
-        var prices = await connection(JSON.stringify({ type: "stock", name: name }), "192.168.0.16:5002");
-        prices = price.worth / prices.stocks;
+        if(e.target && e.target.id.includes(`${name}Amount-field`)){  
+            
+            var elm = document.getElementById(`${name}Cost`);
+        var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), "192.168.0.16:5002"));
+        console.log(prices)
+        prices = parseFloat(prices.worth) / parseFloat(prices.stocks);
         console.log(prices);
         elm.innerHTML = "Cost: $" + prices * document.getElementById(`${name}Amount-field`).value;}
 
@@ -81,22 +86,27 @@ document.addEventListener('change', async (e) => {
 
 console.log(document.getElementById(`buy${name}Form`));
 
-
-var form = 'buy'+name+'Form'
 document.addEventListener('submit', async function(e) {
-  
+    var InvalidAmount = document.getElementById(`${name}ErrMsg`)
+    InvalidAmount.style.opacity = 0;
     console.log(e.target.id)
     e.preventDefault();
     if(e.target && e.target.id.includes(name)){
         var elm = document.getElementById(`${name}Amount-field`);
   console.log('click');
-  
-  await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
-    console.log('Form submitted');
-    UIkit.modal(document.getElementById('buy${name}Card')).hide();
+  var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), "192.168.0.16:5002"));
+        console.log(prices)
+  if(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))>=parseFloat(prices.worth)){
+    await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+  console.log('Form submitted');
+  UIkit.modal(document.getElementById(`buy${name}Card`)).hide()
+}else{
+    var InvalidAmount = document.getElementById(`${name}ErrMsg`)
+    InvalidAmount.style.opacity = 1;
 }
+  
     
-  });
+}});
   
 
      

@@ -37,7 +37,7 @@ wss.on('connection', function connection(ws) {
                     var compName = data.name
                     data.amount = parseFloat(data.amount)
                     user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
-
+                    database.Companies[data.name].stocks -= data.amount
                     database.Companies[data.name].soldStocks += data.amount
                     user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
                     console.log(database.Companies[data.name])

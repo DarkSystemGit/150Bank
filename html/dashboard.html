@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Blue Side Navigation Panel</title>
+	<link rel="stylesheet" href="./../css/uikit.min.css" />
+	<script src="./../js/uikit.min.js"></script>
+	<script src="./../js/uikit-icons.min.js"></script>
+	<style>
+    @font-face {
+  font-family: font;
+  src: url(./../css/OpenSauceTwo-Regular.ttf);
+}
+		.uk-side-nav {
+      font-family: font;
+			background-color: #1976D2; /* set the background color */
+			color: white; /* set the font color */
+			height: 100%; /* set the height to 100% of the viewport */
+			position: fixed; /* set the position to fixed */
+			left: 0; /* align to the left */
+			top: 0; /* align to the top */
+			padding-top: 60px; /* add padding to the top to make space for the logo */
+			width: 200px; /* set the width of the panel */
+		}
+		.uk-side-nav a {
+			color: white; /* set the font color of the links */
+		}
+		.uk-side-nav .uk-logo {
+			text-align: center; /* center the logo */
+			padding: 15px 0; /* add padding to the top and bottom */
+		}
+    .white{
+      color: white;
+      font-weight: bold;
+    }
+	</style>
+</head>
+<body>
+	<div class="uk-side-nav">
+		<div class="uk-logo">
+			<img src="./../images/dogebankPanel.png" alt="Logo" width="200">
+		</div>
+		<ul class="uk-nav uk-nav-default" style="color:white;">
+      <div style="margin-left: 5%;">
+        			
+        <li><a href="#"><p class="white">Stocks</p></a></li>
+        <li><a href="#"><p class="white">Bank</p></a></li>
+        <li><a href="#"><p class="white">Market</p></a></li>
+       
+        
+        
+      </div>
+      <li class="uk-nav-divider"></li>
+      <div style="margin-left: 5%;">
+        <li><a href="#" class="uk-active"><p class="white">Notifications</p></a></li>
+        <li><a href="#"><p class="white">Settings</p></a></li>
+      </div>
+			
+		</ul>
+	</div>
+	<div class="uk-container">
+		<!-- main content here -->
+    <div style="height:30vh; width:75vw;" class="uk-card uk-card-default">
+      <div class="uk-card-header">Your Account</div>
+    </div>
+	</div>
+</body>
+</html>

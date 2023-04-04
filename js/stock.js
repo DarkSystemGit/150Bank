@@ -61,7 +61,7 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
             <form action="" id="buy${name}Form" class=" " style="margin-top: 10%;">
                 Amount:<input type="text" value="1" name="amount" id="${name}Amount-field" class="login-form-field " placeholder="Write the amount of stocks you want to buy here"><br>  
                 <div class="uk-divider-small:after"></div>
-                <br><div id="${name}Cost">Cost: $0</div> <br>
+                <br><div id="${name}Cost">Cost: $${worth/stocks}</div> <br>
                 <input type="submit" value="Buy" id="${name}-form-submit" style="height: 3em; width: 40%;padding: 7px;border: none;border-radius: 5px;color: white;font-weight: bold;background-color: #3a3a3a;cursor: pointer;outline: none;">
                     
                 </form></div>

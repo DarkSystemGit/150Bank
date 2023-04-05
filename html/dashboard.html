@@ -5,6 +5,7 @@
 	<title>Blue Side Navigation Panel</title>
 	<link rel="stylesheet" href="./../css/uikit.min.css" />
 	<script src="./../js/uikit.min.js"></script>
+  <script src="./../js/stock.js"></script>
 	<script src="./../js/uikit-icons.min.js"></script>
 	<style>
     @font-face {
@@ -60,8 +61,9 @@
 	</div>
 	<div class="uk-container">
 		<!-- main content here -->
-    <div style="height:45vh; width:75vw;margin-top:5%;" class="uk-card uk-card-default">
-      <div class="uk-card-header" style=" font-size:150%; color:black;">Your Account</div>
+    <div style="height:fit-content; width:75vw;margin-top:5%;" class="uk-card uk-card-default">
+      <div class="uk-card-header" style=" font-size:150%; color:black;">Stocks</div>
+      <div id="cards" style="display: grid;"></div>
     </div>
 	</div>
 </body>

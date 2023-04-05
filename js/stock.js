@@ -146,8 +146,12 @@ async function generateCompanyCard(name, button, cardPos, times) {
     }
     var companies = await connection(JSON.stringify({ type: "companyList" }), '192.168.0.16:5002')
     companies = JSON.parse(companies)
-    var createCompany = document.getElementsByClassName('createStock')[0]
+    try{ var createCompany = document.getElementsByClassName('createStock')[0]
     createCompany.addEventListener('click', async function() {window.location.replace(`http://${location.host}/html/CreateCompany.html`)})
+}catch{
+    console.log('another page!')
+}
+   
     var heightCounter=0
     for (var counter = 0; counter <= companies.length - 1; counter++) {
         console.log(counter+1)

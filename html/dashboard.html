@@ -61,9 +61,33 @@
 	</div>
 	<div class="uk-container">
 		<!-- main content here -->
-    <div style="height:fit-content; width:75vw;margin-top:5%;" class="uk-card uk-card-default">
-      <div class="uk-card-header" style=" font-size:150%; color:black;">Stocks</div>
-      <div id="cards" style="display: grid;"></div>
+   
+    <script>
+      (async ()=>{var companies = await connection(JSON.stringify({ type: "viewUser", id:sessionStorage.getItem('sessionId') }), '192.168.0.16:5003')
+    console.log(companies)
+      companies = JSON.parse(companies)
+    companies = Object.keys(companies.Stocks)
+      var heightCounter=0
+    for (var counter = 0; counter <= companies.length - 1; counter++) {
+        console.log(counter+1)
+        if(([counter+1]*100) % 4 ===0){
+            console.log('change')
+            if(counter<0)
+            {
+            break
+          }
+        }
+        //console.log(heightCounter)
+        await generateCompanyCard(companies[counter], async function() {
+            console.log('ElmClick');
+            UIkit.modal(document.getElementById(`buy${companies[counter]}Card`)).show();
+        }, [heightCounter, multiple(counter+1,4)],'stockCards')
+        heightCounter++
+    }})()
+    </script>
+    <div style="margin-right:5%;margin-left:auto;height:fit-content; width:75%;margin-top:5%;" class="uk-card uk-card-default">
+      <div class="uk-card-header" style=" font-size:150%; color:black;">Your Stocks</div>
+      <div id="stockCards" style="display: grid;"></div>
     </div>
 	</div>
 </body>

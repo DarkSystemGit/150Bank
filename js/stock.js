@@ -1,7 +1,7 @@
-async function generateCompanyCardBack(name, image, worth, stocks, description, button, cardPos) {
-
-    var elm = document.getElementById('cards')
-    var card = `<div style="grid-column:${cardPos[0]};grid-row:${cardPos[1]};margin:2%;" id="${name}Card" class="uk-card uk-card-default" >
+async function generateCompanyCardBack(name, image, worth, stocks, description, button, cardPos,cardId) {
+    
+    var elm = document.getElementById(cardId)
+    var card = `<div style="grid-column:${cardPos[0]};grid-row:${cardPos[1]};margin:2%;" id="${name}Card" class="uk-card uk-card-default " >
     <div class="uk-card-header">
         <div class="uk-grid-small uk-flex-middle uk-grid" >
             <div class="uk-width-auto">
@@ -131,27 +131,25 @@ async function connection(message, url) {
     });
 }
 
-async function generateCompanyCard(name, button, cardPos, times) {
+async function generateCompanyCard(name, button, cardPos, cardId) {
     console.log(cardPos)
+   
     var companyData = await connection(JSON.stringify({ type: "stocks", name }), '192.168.0.16:5002')
     companyData = JSON.parse(companyData)
 
-    generateCompanyCardBack(companyData.name, companyData.image, companyData.worth, companyData.stocks, companyData.description, button, cardPos)
+    generateCompanyCardBack(companyData.name, companyData.image, companyData.worth, companyData.stocks, companyData.description, button, cardPos, cardId)
+}
+function multiple(num1, num2){
+    var remainder = num1/num2
+    remainder=Math.ceil(remainder)
+    return remainder
 }
 (async function() {
-    function multiple(num1, num2){
-        var remainder = num1/num2
-        remainder=Math.ceil(remainder)
-        return remainder
-    }
+   
     var companies = await connection(JSON.stringify({ type: "companyList" }), '192.168.0.16:5002')
     companies = JSON.parse(companies)
     try{ var createCompany = document.getElementsByClassName('createStock')[0]
     createCompany.addEventListener('click', async function() {window.location.replace(`http://${location.host}/html/CreateCompany.html`)})
-}catch{
-    console.log('another page!')
-}
-   
     var heightCounter=0
     for (var counter = 0; counter <= companies.length - 1; counter++) {
         console.log(counter+1)
@@ -163,8 +161,30 @@ async function generateCompanyCard(name, button, cardPos, times) {
         await generateCompanyCard(companies[counter], async function() {
             console.log('ElmClick');
             UIkit.modal(document.getElementById(`buy${companies[counter]}Card`)).show();
-        }, [heightCounter, multiple(counter+1,4)])
+        }, [heightCounter, multiple(counter+1,4)],'cards')
         heightCounter++
     }
+}catch{
+    /*console.log('another page!')
+    var heightCounter=0 
+    for (var counter = 0; counter <= companies.length - 1; counter++) {
+        console.log(counter+1)
+        if(([counter+1]*100) % 4 ===0){
+            console.log('change')
+            if(counter<0){
+                break
+            }
+            
+        }
+        //console.log(heightCounter)
+        await generateCompanyCard(companies[counter], async function() {
+            console.log('ElmClick');
+            UIkit.modal(document.getElementById(`buy${companies[counter]}Card`)).show();
+        }, [heightCounter, multiple(counter+1,4)],'stockCards')
+        heightCounter++
+    }*/
+}
+   
+    
 
 })()

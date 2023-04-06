@@ -78,7 +78,7 @@ wss.on('connection', function connection(ws) {
                 } else if (data.image.includes('jpg')) {
                     imageType = 'jpg'
                 } else {
-                    ws.send('error')
+                    ws.send(JSON.stringify({message:'error'}))
                 }
                 var image = {
                     fileName: `${data.name}PrdtImg.${imageType}`,
@@ -177,6 +177,7 @@ wss.on('connection', function connection(ws) {
                 user.Balance -= parseFloat(data.amount)
                 ws.send('done')
             }else if (data.type === 'viewUser'){
+                console.log(data)
                 ws.send(JSON.stringify(users[data.id][1]))
             }else if (data.type === 'editUser'){
                 users[data.id][1] = data.user
@@ -186,7 +187,7 @@ wss.on('connection', function connection(ws) {
             }   
 
         } catch {
-            ws.send('error')
+            ws.send(JSON.stringify({message:'error'}))
         }
     });
 

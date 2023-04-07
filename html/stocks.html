@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./../css/uikit.min.css" />
     <link rel="stylesheet" href="./../css/index.css">
     <link rel="stylesheet" href="./../css/stocks.css">
-    <!-- UIkit JS -->
+    <-- UIkit JS ->
     <script src="./../js/uikit.min.js"></script>
     <script src="./../js/uikit-icons.min.js"></script>
 
@@ -51,19 +51,25 @@
     </script>
 </body>
 
-</html>
+</html-->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
     <link rel="stylesheet" href="./../css/index.css">
     <link rel="stylesheet" href="./../css/stocks.css">
-	<title>Blue Side Navigation Panel</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.4/css/uikit.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.4/js/uikit.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.7.4/js/uikit-icons.min.js"></script>
+	<title>stocks</title>
+    <link rel="stylesheet" href="./../css/uikit.min.css" />
+	<script src="./../js/uikit.min.js"></script>
+
+	<script src="./../js/uikit-icons.min.js"></script>
 	<style>
+		   @font-face {
+  font-family: font;
+  src: url(./../css/OpenSauceTwo-Regular.ttf);
+}
 		.uk-side-nav {
+      font-family: font;
 			background-color: #1976D2; /* set the background color */
 			color: white; /* set the font color */
 			height: 100%; /* set the height to 100% of the viewport */
@@ -80,25 +86,38 @@
 			text-align: center; /* center the logo */
 			padding: 15px 0; /* add padding to the top and bottom */
 		}
+    .white{
+      color: white;
+      font-weight: bold;
+    }
 	</style>
 </head>
 <body>
 	<div class="uk-side-nav">
 		<div class="uk-logo">
-			<img src="logo.png" alt="Logo" width="100">
+			<img src="./../images/dogebankPanel.png" alt="Logo" width="200">
 		</div>
-		<ul class="uk-nav uk-nav-default">
-			<li class="uk-active"><a href="#">Dashboard</a></li>
-			<li><a href="#">Profile</a></li>
-			<li><a href="#">Messages</a></li>
-			<li><a href="#">Notifications</a></li>
-			<li class="uk-nav-divider"></li>
-			<li><a href="#">Settings</a></li>
-			<li><a href="#">Help</a></li>
+		<ul class="uk-nav uk-nav-default" style="color:white;">
+      <div style="margin-left: 5%;">
+        			
+        <li><a href="dashboard.html"><p class="white">Home</p></a></li>
+        <li><a href="#"><p class="white">Bank</p></a></li>
+        <li><a href="#"><p class="white">Market</p></a></li>
+       
+        
+        
+      </div>
+      <li class="uk-nav-divider"></li>
+      <div style="margin-left: 5%;">
+        <li><a href="#" class="uk-active"><p class="white">Notifications</p></a></li>
+        <li><a href="#"><p class="white">Settings</p></a></li>
+      </div>
+			
 		</ul>
 	</div>
 	<div class="uk-container">
 		<!-- main content here -->
+        <div style="margin-top:5%"></div>
         <div id="cards" style="display: grid;">
         </div>
         <button class="createStock uk-button-primary"><svg width="20" height="20" viewBox="0 0 20 20" class="plus" xmlns="http://www.w3.org/2000/svg"><rect fill="white" x="9" y="1" width="1" height="17"/><rect fill="white" x="1" y="9" width="17" height="1"/></svg> Create Company</button>

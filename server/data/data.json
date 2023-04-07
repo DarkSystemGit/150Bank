@@ -30,6 +30,7 @@
       "name": "dogeBank",
       "image": "DogeBaNk.png",
       "description": "The company that powers your class's economy",
+      "products": {},
       "worth": 300,
       "stocks": 10,
       "soldStocks": 0
@@ -38,6 +39,7 @@
       "name": "Speed Art Corp",
       "image": "pencil.png",
       "description": "We sell pencils, and pencils are rare so,<br> we make a lot of money. You can too.",
+      "products": {},
       "worth": 100,
       "stocks": 1,
       "soldStocks": 0
@@ -46,6 +48,7 @@
       "name": "Dark System Technologies",
       "description": "The Technology company that<br> powers your computer, and SeaOS.",
       "image": "darksystemLogo.svg",
+      "products": {},
       "worth": 100,
       "stocks": 1,
       "soldStocks": 0
@@ -54,6 +57,14 @@
       "description": "Nextcloud is a suite of client-server software for creating and using file hosting services. Nextcloud provides functionally similar to Dropbox, Office 365 or Google Drive when used with integrated office suites Collabora Online or OnlyOffice. It can be hosted in the cloud or on-premises.",
       "name": "nextcloud",
       "image": "nextcloud.jpeg",
+      "products": {
+        "cloud": {
+          "name": "cloud",
+          "image": "cloudPrdtImg.png",
+          "description": "a",
+          "price": "10"
+        }
+      },
       "worth": 10,
       "stocks": 1,
       "soldStocks": 0

@@ -97,6 +97,7 @@ wss.on('connection', function connection(ws) {
                         'price': data.price
                     }
                 }
+                console.log('a'+products[data.name])
                 database.Users[user.Username] = user
                 console.log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
@@ -190,7 +191,8 @@ wss.on('connection', function connection(ws) {
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
             }   
 
-        } catch {
+        } catch(e) {
+            console.log('err: '+e.message)
             ws.send(JSON.stringify({message:'error'}))
         }
     });

@@ -113,6 +113,7 @@ async function main(ws, data) {
                 'description': data.description,
                 'name': data.name,
                 'image': image.fileName,
+                'products':{},
                 'worth': 0,
                 'stocks': 0,
                 'soldStocks':0

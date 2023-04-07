@@ -4,7 +4,7 @@
       "Name": "bob",
       "Username": "test",
       "Password": "tesr",
-      "Companies": ["nextcloud", "nextcloud"],
+      "Companies": ["nextcloud"],
       "Stocks": {},
       "Balance": 9999999999910.371
     },

@@ -13,7 +13,7 @@ async function connection(message, url) {
     });
 }
 (async()=>{
-    var companies = JSON.parse(await connection(JSON.stringify({ type: "companyList" }), '192.168.0.16:5002'))
+    var companies = JSON.parse(await connection(JSON.stringify({ type: "viewUser" ,id:sessionStorage.getItem('sessionId')}), '192.168.0.16:5003')).Companies
     companies.forEach((value) => {
   const optionElement = document.createElement("option");
   optionElement.value = value;

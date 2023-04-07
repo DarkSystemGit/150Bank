@@ -9,8 +9,9 @@ wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
 
     ws.on('message', function message(data) {
-        console.log(data)
+        
         data = JSON.parse(data)
+        console.log(data)
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         try {
             if (data.type === 'login') {
@@ -70,6 +71,7 @@ wss.on('connection', function connection(ws) {
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
             } else if (data.type === 'createProduct') {
+                console.log('prdct')
                 var user = users[data.id][1]
                 var products = database.Companies[data.company].products
                 var imageType;

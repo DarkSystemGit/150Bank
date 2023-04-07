@@ -114,7 +114,8 @@ async function main(ws, data) {
                 'name': data.name,
                 'image': image.fileName,
                 'worth': 0,
-                'stocks': 0
+                'stocks': 0,
+                'soldStocks':0
             }
             console.log(company)
             database.Companies[data.name] = company

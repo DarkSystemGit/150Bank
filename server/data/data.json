@@ -58,12 +58,7 @@
       "name": "nextcloud",
       "image": "nextcloud.jpeg",
       "products": {
-        "cloud": {
-          "name": "cloud",
-          "image": "cloudPrdtImg.png",
-          "description": "a",
-          "price": "10"
-        }
+        
       },
       "worth": 10,
       "stocks": 1,

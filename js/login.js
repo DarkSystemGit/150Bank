@@ -27,7 +27,8 @@ loginButton.addEventListener("click", async(e) => {
         loginErrorMsg.style.opacity = 1;
     }else{
         sessionStorage.setItem("sessionId", res);
-
+        console.log(location.hostname)
+    window.location.replace(`http://${location.hostname}:${location.port}/html/dashboard.html`)
     }
     console.log(res)
 })

@@ -68,6 +68,9 @@
       companies = JSON.parse(companies)
     companies = Object.keys(companies.Stocks)
       var heightCounter=0
+      if(companies.length==0){
+      document.getElementById('stockCards').style.height='50vh'
+      }
     for (var counter = 0; counter <= companies.length - 1; counter++) {
         console.log(counter+1)
         if(([counter+1]*100) % 4 ===0){

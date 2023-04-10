@@ -69,7 +69,12 @@
     companies = Object.keys(companies.Stocks)
       var heightCounter=0
       if(companies.length==0){
+        var style =  `display: flex;justify-content: center;align-items: center;`
+        document.getElementById('stockCards').style.cssText = style;
+        document.getElementById('stockFound').style.opacity=1
       document.getElementById('stockCards').style.height='50vh'
+      }else{
+        document.getElementById('stockFound').style.opacity=0
       }
     for (var counter = 0; counter <= companies.length - 1; counter++) {
         console.log(counter+1)
@@ -90,7 +95,9 @@
     </script>
     <div style="margin-right:5%;margin-left:auto;height:fit-content; width:75%;margin-top:5%;" class="uk-card uk-card-default">
       <div class="uk-card-header" style=" font-size:150%; color:black;">Your Stocks</div>
-      <div id="stockCards" style="display: grid;"></div>
+      <div id="stockCards" style="display: grid;">
+        <p id="stockFound" style="opacity: 0;">No Stocks Found</p>
+      </div>
     </div>
 	</div>
 </body>

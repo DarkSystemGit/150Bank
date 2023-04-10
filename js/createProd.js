@@ -68,6 +68,6 @@ document.getElementById('product-form').addEventListener('submit', async functio
 
     if (upload === 'complete') {
 
-        window.location.replace(`http://${location.host}/html/dashboard.html`)
+        window.location.replace(`http://${location.hostname}:${location.port}/html/dashboard.html`)
     }
 })

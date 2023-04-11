@@ -113,10 +113,10 @@ async function main(ws, data) {
                 'description': data.description,
                 'name': data.name,
                 'image': image.fileName,
-                'products':{},
+                'products': {},
                 'worth': 0,
                 'stocks': 0,
-                'soldStocks':0
+                'soldStocks': 0
             }
             console.log(company)
             database.Companies[data.name] = company
@@ -125,7 +125,7 @@ async function main(ws, data) {
                 type: 'createComp',
                 name: data.name,
                 id: data.id
-            }), "192.168.0.16:5003")
+            }), "127.0.0.1:5003")
             if (res === 'done') {
                 ws.send('complete')
             }
@@ -139,14 +139,14 @@ async function main(ws, data) {
             name: data.name,
             amount: data.amount,
             id: data.id
-        }), "192.168.0.16:5003")
+        }), "127.0.0.1:5003")
     } else if (data.type === "sellStock") {
         await connection(JSON.stringify({
             type: 'sellStock',
             name: data.name,
             amount: data.amount,
             id: data.id
-        }), "192.168.0.16:5003")
+        }), "127.0.0.1:5003")
     } else if (data.type === 'listProducts') {
 
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
@@ -161,5 +161,21 @@ async function main(ws, data) {
     } else if (data.type === 'getCompany') {
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         ws.send(database.Companies[data.name])
+    } else if (data.type == 'getProductData') {
+        var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
+        var product;
+        var comps = Object.keys(database.Companies)
+        for (var counter; counter < comps.length; counter++) {
+            if (Object.keys(database.Companies[comps[counter]].products).includes(data.name)) {
+                product = database.Companies[comps[counter]].products[data.name]
+                product.company = comps[counter]
+            }
+
+        }
+        if (!product == null) {
+            ws.send(JSON.stringify(product))
+        } else {
+            ws.send('error')
+        }
     }
 }

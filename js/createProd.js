@@ -13,7 +13,7 @@ async function connection(message, url) {
     });
 }
 (async()=>{
-    var companies = JSON.parse(await connection(JSON.stringify({ type: "viewUser" ,id:sessionStorage.getItem('sessionId')}), '192.168.0.16:5003')).Companies
+    var companies = JSON.parse(await connection(JSON.stringify({ type: "viewUser" ,id:sessionStorage.getItem('sessionId')}), `${location.hostname}:5003`)).Companies
     companies.forEach((value) => {
   const optionElement = document.createElement("option");
   optionElement.value = value;
@@ -60,14 +60,14 @@ document.getElementById('product-form').addEventListener('submit', async functio
         }
         return fields
     }
-    var url //= location.hostname
-    url = "192.168.0.16:5003"
+    var url //= location.host
+    url = `${location.hostname}:5003`
     var res = await getFields()
     var upload = await connection(JSON.stringify(res), `${url}`)
     console.log(`${location.host}/html/stocks.html`)
 
     if (upload === 'complete') {
 
-        window.location.replace(`http://${location.hostname}:${location.port}/html/dashboard.html`)
+        window.location.replace(`http://${location.host}:${location.port}/html/dashboard.html`)
     }
 })

@@ -23,8 +23,8 @@ loginButton.addEventListener("click", async(e) => {
     const password = loginForm.password.value;
     const name = loginForm.name.value;
     const email = loginForm.email.value
-    var url //= location.hostname
-    url = "192.168.0.16:5002"
+    var url //= location.host
+    url = `${location.hostname}:5002`
     await connection(JSON.stringify({
         type: 'signUp',
         username,

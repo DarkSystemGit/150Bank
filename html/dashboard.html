@@ -63,7 +63,7 @@
 		<!-- main content here -->
    
     <script>
-      (async ()=>{var companies = await connection(JSON.stringify({ type: "viewUser", id:sessionStorage.getItem('sessionId') }), '192.168.0.16:5003')
+      (async ()=>{var companies = await connection(JSON.stringify({ type: "viewUser", id:sessionStorage.getItem('sessionId') }), `${location.hostname}:5003`)
     console.log(companies)
       companies = JSON.parse(companies)
     companies = Object.keys(companies.Stocks)

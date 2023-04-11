@@ -15,6 +15,6 @@ async function connection(message, url) {
 
 setInterval(async function() {
     var elm = document.getElementById("${name}Editible")
-    var prices = await connection(JSON.stringify({ type: "pricesList", name: "" }), "192.168.0.16:5002")
+    var prices = await connection(JSON.stringify({ type: "pricesList", name: "" }), `${location.hostname}:5002`)
     elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1]
 }, 40)

@@ -20,15 +20,15 @@ loginButton.addEventListener("click", async(e) => {
     const username = loginForm.username.value;
     const password = loginForm.password.value;
 
-    //var url = location.hostname
-    var url = "192.168.0.16:5002"
+    //var url = location.host
+    var url = `${location.hostname}:5002`
     var res = await connection(JSON.stringify({ type: 'login', username, password }), `ws://${url}`)
     if (res === "BadPassword") {
         loginErrorMsg.style.opacity = 1;
     }else{
         sessionStorage.setItem("sessionId", res);
-        console.log(location.hostname)
-    window.location.replace(`http://${location.hostname}:${location.port}/html/dashboard.html`)
+        console.log(location.host)
+    window.location.replace(`http://${location.host}:${location.port}/html/dashboard.html`)
     }
     console.log(res)
 })

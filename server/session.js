@@ -94,7 +94,8 @@ wss.on('connection', function connection(ws) {
                         'name': data.name,
                         'image': image.fileName,
                         'description': data.description,
-                        'price': data.price
+                        'price': data.price,
+                        'category':data.category
                     }
                 }
                 console.log(products[data.name])

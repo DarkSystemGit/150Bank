@@ -39,8 +39,8 @@ document.getElementById('company-form-submit').addEventListener('click', async f
         "image":await processImage('fileUpload'),id:sessionStorage.getItem("sessionId")}
         return fields
     }
-    var url //= location.hostname
-    url = "192.168.0.16:5002"
+    var url //= location.host
+    url = `${location.hostname}:5002`
     var res = await getFields()
     var upload = await connection(JSON.stringify(res), `${url}`)
     console.log(`${location.host}/html/stocks.html`)

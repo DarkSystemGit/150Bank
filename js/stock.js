@@ -32,7 +32,7 @@ async function generateCompanyCardBack(name, image, worth, stocks, description, 
           
           setInterval(async function() {
             var elm = document.getElementById("${name}Editible");
-            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "192.168.0.16:5002");
+            var prices = await connection(JSON.stringify({ type: "pricesList", name: "${name}" }), "${location.hostname}:5002");
             elm.innerHTML = " <h4> Worth: </h4> $" + prices[0] + " <h4> Average Stock Price: </h4> $" + prices[1];
           }, 40);
           
@@ -76,7 +76,7 @@ document.addEventListener('change', async (e) => {
         if(e.target && e.target.id.includes(`${name}Amount-field`)){  
             
             var elm = document.getElementById(`${name}Cost`);
-        var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), "192.168.0.16:5002"));
+        var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), `${location.hostname}:5002`));
         console.log(prices)
         prices = parseFloat(prices.worth) / parseFloat(prices.stocks);
         console.log(prices);
@@ -94,12 +94,12 @@ document.addEventListener('submit', async function(e) {
     if(e.target && e.target.id.includes(name)){
         var elm = document.getElementById(`${name}Amount-field`);
   console.log('click');
-  var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), "192.168.0.16:5002"));
+  var prices = JSON.parse(await connection(JSON.stringify({ type: "stocks", name: name }), `${location.hostname}:5002`));
   console.log(elm.value)
         console.log(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))<=parseFloat(prices.worth))
   if(!elm.value*(parseFloat(prices.worth) / parseFloat(prices.stocks))<=parseFloat(prices.worth)){
     console.log('buy')
-    await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), "192.168.0.16:5002");
+    await connection(JSON.stringify({ 'type': "buyStock", 'name': name, 'amount': elm.value, 'id': sessionStorage.getItem('sessionId') }), `${location.hostname}:5002`);
   console.log('Form submitted');
   UIkit.modal(document.getElementById(`buy${name}Card`)).hide()
 }else{
@@ -134,7 +134,7 @@ async function connection(message, url) {
 async function generateCompanyCard(name, button, cardPos, cardId) {
     console.log(cardPos)
    
-    var companyData = await connection(JSON.stringify({ type: "stocks", name }), '192.168.0.16:5002')
+    var companyData = await connection(JSON.stringify({ type: "stocks", name }), `${location.hostname}:5002`)
     companyData = JSON.parse(companyData)
 
     generateCompanyCardBack(companyData.name, companyData.image, companyData.worth, companyData.stocks, companyData.description, button, cardPos, cardId)
@@ -146,7 +146,7 @@ function multiple(num1, num2){
 }
 (async function() {
    
-    var companies = await connection(JSON.stringify({ type: "companyList" }), '192.168.0.16:5002')
+    var companies = await connection(JSON.stringify({ type: "companyList" }), `${location.hostname}:5002`)
     companies = JSON.parse(companies)
     try{ var createCompany = document.getElementsByClassName('createStock')[0]
     createCompany.addEventListener('click', async function() {window.location.replace(`http://${location.host}/html/CreateCompany.html`)})

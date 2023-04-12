@@ -1,90 +1,121 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
-    <link rel="stylesheet" href="./../css/index.css">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="./../css/index.css">
 
-	<title>Market</title>
-    <link rel="stylesheet" href="./../css/uikit.min.css" />
-	<script src="./../js/uikit.min.js"></script>
+  <title>Market</title>
+  <link rel="stylesheet" href="./../css/uikit.min.css" />
+  <script src="./../js/uikit.min.js"></script>
 
-	<script src="./../js/uikit-icons.min.js"></script>
+  <script src="./../js/uikit-icons.min.js"></script>
   <script defer src="./../js/market.js"></script>
-	<style>
-		   @font-face {
-  font-family: font;
-  src: url(./../css/OpenSauceTwo-Regular.ttf);
-}
-		.uk-side-nav {
+  <style>
+    @font-face {
       font-family: font;
-			background-color: #1976D2; /* set the background color */
-			color: white; /* set the font color */
-			height: 200%; /* set the height to 200% of the viewport */
-			position: fixed; /* set the position to fixed */
-			left: 0; /* align to the left */
-			top: 0; /* align to the top */
-			padding-top: 60px; /* add padding to the top to make space for the logo */
-			width: 200px; /* set the width of the panel */
-		}
-		.uk-side-nav a {
-			color: white; /* set the font color of the links */
-		}
-		.uk-side-nav .uk-logo {
-			text-align: center; /* center the logo */
-			padding: 20px 0; /* add padding to the top and bottom */
-		}
-    .white{
+      src: url(./../css/OpenSauceTwo-Regular.ttf);
+    }
+
+    .uk-side-nav {
+      font-family: font;
+      background-color: #1976D2;
+      /* set the background color */
+      color: white;
+      /* set the font color */
+      height: 200%;
+      /* set the height to 200% of the viewport */
+      position: fixed;
+      /* set the position to fixed */
+      left: 0;
+      /* align to the left */
+      top: 0;
+      /* align to the top */
+      padding-top: 60px;
+      /* add padding to the top to make space for the logo */
+      width: 14.6vw;
+      
+      /* set the width of the panel */
+    }
+
+    .uk-side-nav a {
+      color: white;
+      /* set the font color of the links */
+    }
+
+    .uk-side-nav .uk-logo {
+      text-align: center;
+      /* center the logo */
+      padding: 20px 0;
+      /* add padding to the top and bottom */
+    }
+
+    .white {
       color: white;
       font-weight: bold;
     }
-	</style>
+  </style>
 </head>
+
 <body>
-	<div class="uk-side-nav">
-		<div class="uk-logo">
-			<img src="./../images/dogebankPanel.png" alt="Logo" width="200">
-		</div>
-		<ul class="uk-nav uk-nav-default" style="color:white;">
+  <div class="uk-side-nav" style="display: none;">
+    <div class="uk-logo">
+      <img src="./../images/dogebankPanel.png" alt="Logo" width="200">
+    </div>
+    <ul class="uk-nav uk-nav-default" style="color:white;">
       <div style="margin-left: 5%;">
-        			
-        <li><a href="dashboard.html"><p class="white">Home</p></a></li>
-        <li><a href="#"><p class="white">Bank</p></a></li>
-        <li><a href="#"><p class="white">Market</p></a></li>
-       
-        
-        
+
+        <li><a href="dashboard.html">
+            <p class="white">Home</p>
+          </a></li>
+        <li><a href="#">
+            <p class="white">Bank</p>
+          </a></li>
+        <li><a href="#">
+            <p class="white">Market</p>
+          </a></li>
+
+
+
       </div>
       <li class="uk-nav-divider"></li>
       <div style="margin-left: 5%;">
-        <li><a href="#" class="uk-active"><p class="white">Notifications</p></a></li>
-        <li><a href="#"><p class="white">Settings</p></a></li>
+        <li><a href="#" class="uk-active">
+            <p class="white">Notifications</p>
+          </a></li>
+        <li><a href="#">
+            <p class="white">Settings</p>
+          </a></li>
       </div>
-			
-		</ul>
-	</div>
-	<div class="uk-container" style="height: fit-content;width: fit-content;">
-		<!-- main content here -->
-        <div style="margin-top: 10vh;"></div>
-        <h1 style="margin-right:40vw;">Books</h1>
-        <div style="display:flex" id="books">
-        
-          
-          
-        
-      </div>
-        <h1 style="margin-right:40vw;">Software</h1>
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Electronics</h1>
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Food and Beverage</h1>
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Furniture and Decor</h1>
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Jewelery</h1>
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Media</h1> 
-        <div style="margin-top: 25vh;"></div>
-        <h1 style="margin-right:40vw;">Equipment</h1>              
-	</div>
+
+    </ul>
+  </div>
+  <div class="" style="">
+    <!-- main content here -->
+    <div style="margin-top: 10vh;"></div>
+    <h1>Books</h1>
+    <div style="display:flex" id="books"></div>
+    <h1>Software</h1>
+    <div style="display:flex" id="software"></div>
+
+    <h1 >Electronics</h1>
+    <div style="display:flex" id="electronics"></div>
+
+    <h1 >Food and Beverage</h1>
+    <div style="display:flex" id="food and beverage"></div>
+
+    <h1 >Furniture and Decor</h1>
+    <div style="display:flex" id="furniture and decor"></div>
+
+    <h1 >Jewelery</h1>
+    <div style="display:flex" id="jewelery"></div>
+
+    <h1 >Media</h1>
+    <div style="display:flex" id="media"></div>
+
+    <h1 >Equipment</h1>
+    <div style="display:flex" id="Equipment"></div>
+  </div>
 </body>
+
 </html>

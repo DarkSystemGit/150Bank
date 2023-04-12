@@ -46,24 +46,34 @@ async function connection(message, url) {
       remainder = Math.ceil(remainder)
       return remainder
     }
+    var products = {}
     var productsList = JSON.parse(await connection({
       type: 'listProducts'
     }, `${location.hostname}:5002`))
-    
-    for (var counter=0; productsList.length < counter; counter++) {
+    console.log(await connection({
+      type: 'getProductData',
+      name: productsList[0]
+    }, `${location.hostname}:5002`))
+    console.log(productsList.length)
+    for (var counter=0; productsList.length > counter; counter++) {
+      
       let product = JSON.parse(await connection({
         type: 'getProductData',
         name: productsList[counter]
       }, `${location.hostname}:5002`))
-      products[product.catagory][product.name] == product
+      
+      if(products[product.category] ==null){
+        products[product.category] ={}
+      }
+      products[product.category][product.name] = product
     }
-
-    for (var counter=0; Object.keys(products).length < counter; counter++) {
+    console.log(products)
+    for (var counter=0; Object.keys(products).length > counter; counter++) {
       let category =products[Object.keys(products)[counter]]
       
       for(var categoryCounter=0;categoryCounter<Object.keys(category).length;categoryCounter++) {
-        if(!categoryCounter==3){
-          let product = category[Object.keys(category)[categorCounter]]
+        if(!(categoryCounter==4)){
+          let product = category[Object.keys(category)[categoryCounter]]
           createProduct(product.name,product.image,product.price,product.description,product.category)
         }
       };

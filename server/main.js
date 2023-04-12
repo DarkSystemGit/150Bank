@@ -152,7 +152,9 @@ async function main(ws, data) {
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         var products = []
         var comps = Object.keys(database.Companies)
-        for (var counter; counter < comps.length; counter++) {
+
+        for (var counter=0; counter < comps.length; counter++) {
+            console.log(Object.keys(database.Companies[comps[counter]].products))
             products.push(...Object.keys(database.Companies[comps[counter]].products))
         }
 
@@ -165,17 +167,21 @@ async function main(ws, data) {
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         var product;
         var comps = Object.keys(database.Companies)
-        for (var counter; counter < comps.length; counter++) {
+        console.log(data)
+        for (var counter=0; counter < comps.length; counter++) {
+            console.log(Object.keys(database.Companies[comps[counter]].products))
             if (Object.keys(database.Companies[comps[counter]].products).includes(data.name)) {
                 product = database.Companies[comps[counter]].products[data.name]
                 product.company = comps[counter]
+                console.log(product)
             }
 
         }
-        if (!product == null) {
-            ws.send(JSON.stringify(product))
-        } else {
+        if (product == null) {
             ws.send('error')
+        } else {
+            ws.send(JSON.stringify(product))
+           
         }
     }
 }

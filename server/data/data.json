@@ -1,68 +1,92 @@
 {
-  "Users": {
-    "test": {
-      "Name": "bob",
-      "Username": "test",
-      "Password": "tesr",
-      "Companies": ["nextcloud"],
-      "Stocks": {},
-      "Balance": 9999999999910.371
+    "Users": {
+        "test": {
+            "Name": "bob",
+            "Username": "test",
+            "Password": "tesr",
+            "Companies": ["nextcloud"],
+            "Stocks": {},
+            "Balance": 9999999999910.371
+        },
+        "darksystem": {
+            "Name": "Aliou",
+            "Username": "darksystem",
+            "Password": "6f2vUNufNzPumST",
+            "Companies": [],
+            "Stocks": {},
+            "Balance": 0
+        },
+        "random": {
+            "Name": "bob",
+            "Username": "random",
+            "Password": "test",
+            "Companies": [],
+            "Stocks": {},
+            "Balance": 0
+        }
     },
-    "darksystem": {
-      "Name": "Aliou",
-      "Username": "darksystem",
-      "Password": "6f2vUNufNzPumST",
-      "Companies": [],
-      "Stocks": {},
-      "Balance": 0
-    },
-    "random": {
-      "Name": "bob",
-      "Username": "random",
-      "Password": "test",
-      "Companies": [],
-      "Stocks": {},
-      "Balance": 0
+    "Companies": {
+        "dogeBank": {
+            "name": "dogeBank",
+            "image": "DogeBaNk.png",
+            "description": "The company that powers your class's economy",
+            "products": {},
+            "worth": 300,
+            "stocks": 10,
+            "soldStocks": 0
+        },
+        "Speed Art Corp": {
+            "name": "Speed Art Corp",
+            "image": "pencil.png",
+            "description": "We sell pencils, and pencils are rare so,<br> we make a lot of money. You can too.",
+            "products": {},
+            "worth": 100,
+            "stocks": 1,
+            "soldStocks": 0
+        },
+        "Dark System Technologies": {
+            "name": "Dark System Technologies",
+            "description": "The Technology company that<br> powers your computer, and SeaOS.",
+            "image": "darksystemLogo.svg",
+            "products": {},
+            "worth": 100,
+            "stocks": 1,
+            "soldStocks": 0
+        },
+        "nextcloud": {
+            "description": "Nextcloud is a suite of client-server software for creating and using file hosting services. Nextcloud provides functionally similar to Dropbox, Office 365 or Google Drive when used with integrated office suites Collabora Online or OnlyOffice. It can be hosted in the cloud or on-premises.",
+            "name": "nextcloud",
+            "image": "nextcloud.jpeg",
+            "products": {
+                "test": {
+                    "name": "test",
+                    "image": "testPrdtImg.png",
+                    "description": "test",
+                    "price": 0,
+                    "category": "books"
+                }, "tesk": {
+                    "name": "tesk",
+                    "image": "testPrdtImg.png",
+                    "description": "test",
+                    "price": 0,
+                    "category": "books"
+                }, "tesr": {
+                    "name": "tesr",
+                    "image": "testPrdtImg.png",
+                    "description": "test",
+                    "price": 0,
+                    "category": "books"
+                }, "tesp": {
+                    "name": "tesp",
+                    "image": "testPrdtImg.png",
+                    "description": "test",
+                    "price": 0,
+                    "category": "books"
+                }
+            },
+            "worth": 10,
+            "stocks": 1,
+            "soldStocks": 0
+        }
     }
-  },
-  "Companies": {
-    "dogeBank": {
-      "name": "dogeBank",
-      "image": "DogeBaNk.png",
-      "description": "The company that powers your class's economy",
-      "products": {},
-      "worth": 300,
-      "stocks": 10,
-      "soldStocks": 0
-    },
-    "Speed Art Corp": {
-      "name": "Speed Art Corp",
-      "image": "pencil.png",
-      "description": "We sell pencils, and pencils are rare so,<br> we make a lot of money. You can too.",
-      "products": {},
-      "worth": 100,
-      "stocks": 1,
-      "soldStocks": 0
-    },
-    "Dark System Technologies": {
-      "name": "Dark System Technologies",
-      "description": "The Technology company that<br> powers your computer, and SeaOS.",
-      "image": "darksystemLogo.svg",
-      "products": {},
-      "worth": 100,
-      "stocks": 1,
-      "soldStocks": 0
-    },
-    "nextcloud": {
-      "description": "Nextcloud is a suite of client-server software for creating and using file hosting services. Nextcloud provides functionally similar to Dropbox, Office 365 or Google Drive when used with integrated office suites Collabora Online or OnlyOffice. It can be hosted in the cloud or on-premises.",
-      "name": "nextcloud",
-      "image": "nextcloud.jpeg",
-      "products": {
-        
-      },
-      "worth": 10,
-      "stocks": 1,
-      "soldStocks": 0
-    }
-  }
 }

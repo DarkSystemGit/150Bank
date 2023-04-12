@@ -49,6 +49,7 @@ document.getElementById('product-form').addEventListener('submit', async functio
         var dis = document.getElementById('dis-field').value
         var price = document.getElementById('price-field').value
         var company = document.getElementById('company-select').value
+        var category = document.getElementById('product-select').value
         var fields = {
             type: "createProduct",
             name,
@@ -56,6 +57,7 @@ document.getElementById('product-form').addEventListener('submit', async functio
             "image": await processImage('fileUpload'),
             price,
             company,
+            category,
             id: sessionStorage.getItem("sessionId")
         }
         return fields

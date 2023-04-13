@@ -32,3 +32,6 @@ function searchResults(query,items){
         document.getElementById('searchResults').appendChild(result)
     }
 }
+(async function(){
+    
+})()

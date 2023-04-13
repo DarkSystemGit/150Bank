@@ -9,7 +9,7 @@ function createProduct(name, image, cost, description, category) {
         <h4 style="text-align: center;">$${cost}</h4>
     </div>
     <div class="uk-card-media-bottom">
-      <img id="${name}Button" src="./../images/Buy Now.png" style="width:100%;height:50%;" alt="">
+      <img id="${name}Button" src="./../images/Buy Now.svg" style="width:100%;height:50%;" alt="">
       <script>
       var elm = document.getElementById("${name}Button");
       console.log('run')

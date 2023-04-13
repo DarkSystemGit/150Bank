@@ -10,6 +10,7 @@
   <script src="./../js/uikit.min.js"></script>
 
   <script src="./../js/uikit-icons.min.js"></script>
+  <script defer src="./../js/fuze.js"></script>
   <script defer src="./../js/market.js"></script>
   <style>
     @font-face {
@@ -34,7 +35,7 @@
       padding-top: 60px;
       /* add padding to the top to make space for the logo */
       width: 14.6vw;
-      
+
       /* set the width of the panel */
     }
 
@@ -54,11 +55,21 @@
       color: white;
       font-weight: bold;
     }
+
+    .topbar {
+      height: 14vh;
+      width: 85.4vw;
+      z-index: 3;
+      background-color: #fbfbfb;
+      position: fixed;
+      margin-left: 14.6vw;
+      top: 0;
+    }
   </style>
 </head>
 
 <body>
-  <div class="uk-side-nav" style="display: none;">
+  <div class="uk-side-nav">
     <div class="uk-logo">
       <img src="./../images/dogebankPanel.png" alt="Logo" width="200">
     </div>
@@ -90,7 +101,14 @@
 
     </ul>
   </div>
-  <div class="" style="">
+  <div class="topbar">
+    <form class="uk-search uk-search-default" style="margin-left: 37%;margin-top: 2%;">
+      <span uk-search-icon></span>
+      <input id="searchBar" class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
+  </form>
+  <span style="margin-right:2.5%;margin-top:1.5%;" class="uk-icon-hover uk-icon-link uk-position-top-right" uk-icon="icon:cart; ratio:2.3;"></span>
+  </div>
+  <div class="" style="margin-top:17vh;margin-left:16.6vw;max-width:83vw;">
     <!-- main content here -->
     <div style="margin-top: 10vh;"></div>
     <h1>Books</h1>
@@ -98,22 +116,22 @@
     <h1>Software</h1>
     <div style="display:flex" id="software"></div>
 
-    <h1 >Electronics</h1>
+    <h1>Electronics</h1>
     <div style="display:flex" id="electronics"></div>
 
-    <h1 >Food and Beverage</h1>
+    <h1>Food and Beverage</h1>
     <div style="display:flex" id="food and beverage"></div>
 
-    <h1 >Furniture and Decor</h1>
+    <h1>Furniture and Decor</h1>
     <div style="display:flex" id="furniture and decor"></div>
 
-    <h1 >Jewelery</h1>
+    <h1>Jewelery</h1>
     <div style="display:flex" id="jewelery"></div>
 
-    <h1 >Media</h1>
+    <h1>Media</h1>
     <div style="display:flex" id="media"></div>
 
-    <h1 >Equipment</h1>
+    <h1>Equipment</h1>
     <div style="display:flex" id="Equipment"></div>
   </div>
 </body>

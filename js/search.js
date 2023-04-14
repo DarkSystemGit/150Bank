@@ -1,14 +1,24 @@
 
 function fuzeSearch(query, items) {
-  const fuse = new Fuse(items, {
-    keys: ["name", "description"],
-    threshold: 0.4
+  function fuzzyMatch(query, dictionary) {
+    const matches = dictionary.map(obj => {
+      const nameScore = stringSimilarity.compareTwoStrings(query, obj.name);
+      const descriptionScore = stringSimilarity.compareTwoStrings(query, obj.description);
+      const maxScore = Math.max(nameScore, descriptionScore);
+      return { obj, score: maxScore };
+    });
+    
+    return matches;
+  }  
+  var res = []
+  fuzzyMatch(query, items).forEach((result) => {
+      if (result.score >= 0.5) {
+        res.push(result.obj);
+      }
+
   });
-  if (!query) {
-    return [];
-  }
-  console.log(fuse.search(query))
-  return fuse.search(query).map((result) => result.item);
+  console.log(res)
+  return res; 
 }
 
 function searchResults(query, items) {

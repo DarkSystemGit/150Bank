@@ -80,3 +80,4 @@ async function connection(message, url) {
     }
 
   })()
+  setTimeout(()=>{},100)

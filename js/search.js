@@ -60,7 +60,7 @@ function fuzeSearch(query, items,itemList) {
     return matrix[b.length][a.length];
   }
   
-  function fuzzyMatch(query, dictionary,list) {
+  function fuzzyMatch(query, dictionary) {
     console.log(dictionary)
     var results=fuzzySearch(dictionary,query,0.4) 
     return results

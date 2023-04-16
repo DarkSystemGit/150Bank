@@ -95,7 +95,8 @@ wss.on('connection', function connection(ws) {
                         'image': image.fileName,
                         'description': data.description,
                         'price': data.price,
-                        'category':data.category
+                        'category':data.category,
+                        'quantity':data.quantity
                     }
                 }
                 console.log(products[data.name])
@@ -117,7 +118,8 @@ wss.on('connection', function connection(ws) {
                 console.log(users)
                 var user = users[data.id][1]
                 var compName = data.name
-                //user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
+                if(!(database.Companies[data.name].products[data.product].quantity==0)){
+                    //user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
                 //database.Companies[data.name].stocks += data.amount
                 user.Balance -= data.amount * database.Companies[data.name].products[data.product].price
                 var orderId = createUuid()
@@ -150,11 +152,18 @@ wss.on('connection', function connection(ws) {
                     order: orderId,
                     status: 'ordered'
                 }))
+                }else{
+                    ws.send(JSON.stringify({
+                        status: 'No products left'
+                    }))
+                }
+                
             } else if (data.type === 'buyProduct') {
                 console.log(JSON.stringify(data))
                 console.log(users)
                 var user = users[data.id][1]
                 var compName = data.name
+                
                 var order = database.Companies[user.name].orders[data.orderId]
                 order.status = 'delivered'
                 var owner = database.Users[database.Companies[data.name].owner]

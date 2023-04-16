@@ -183,5 +183,86 @@ async function main(ws, data) {
             ws.send(JSON.stringify(product))
            
         }
+    } else if(data.type === "searchProducts"){
+        //returns a list of products based off the value of data.name
+        var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`)) 
+        function fuzzySearch(data, searchValue, threshold) {
+            // Define a threshold for the similarity score
+            const similarityThreshold = threshold || 0.3;
+          
+            // Define an array to hold the results
+            const results = [];
+          
+            // Loop through each item in the data array
+            data.forEach(item => {
+              // Calculate the Levenshtein distance between the searchValue and the item's name property
+              const distance = levenshteinDistance(searchValue.toLowerCase(), item.name.toLowerCase());
+          
+              // Calculate the similarity score between 0 and 1 based on the distance
+              const similarity = 1 - distance / Math.max(searchValue.length, item.name.length);
+          
+              // If the similarity score is above the threshold, add the item to the results array
+              if (similarity >= similarityThreshold) {
+                results.push(item);
+              }
+            });
+          
+            // Return the results array
+            return results;
+          }
+          
+          // A helper function to calculate the Levenshtein distance between two strings
+          function levenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+          
+            const matrix = [];
+          
+            // Initialize the matrix
+            for (let i = 0; i <= b.length; i++) {
+              matrix[i] = [i];
+            }
+            for (let j = 0; j <= a.length; j++) {
+              matrix[0][j] = j;
+            }
+          
+            // Fill in the matrix
+            for (let i = 1; i <= b.length; i++) {
+              for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                  matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                  matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1,
+                  );
+                }
+              }
+            }
+          
+            // Return the Levenshtein distance
+            return matrix[b.length][a.length];
+          }
+          function compileProductData(){
+            var products = []
+            var comps = Object.keys(database.Companies)
+            //console.log(comps)
+            for(var counter=0;counter<comps.length;counter++){
+                var companyProducts = database.Companies[comps[counter]].products
+                //console.log('comp '+JSON.stringify(companyProducts))
+                //console.log(Object.keys(companyProducts))
+                for(var i =0;Object.keys(companyProducts).length>i;i++){
+                    //console.log(companyProducts[Object.keys(companyProducts)[i]])
+                    products.push(companyProducts[Object.keys(companyProducts)[i]])
+                }
+                
+            }
+           //console.log(products)
+            return products
+          }
+          //console.log(data.name)
+          console.log(fuzzySearch(compileProductData(),data.name,0.3))
+          ws.send(JSON.stringify({res:fuzzySearch(compileProductData(),data.name,0.3)}))
     }
 }

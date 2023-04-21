@@ -1,2 +1,8 @@
 /node_modules
 /package-lock.json
+/js/uikit.min.js
+/js/uikit-icons.min.js
+/css/uikit.min.css
+/css/uikit.css
+/css/uikit-rtl.min.css
+/css/uikit-rtl.css

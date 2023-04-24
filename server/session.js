@@ -20,6 +20,7 @@ wss.on('connection', function connection(ws) {
                 console.log(user)
             } else if (data.type === 'createComp') {
                 var user = users[data.id]
+                database.Companies[data.name].owner = user.Username
                 user[1].Companies.push(data.name)
                 user[1].Stocks[data.name] = 100
                 database.Users[user[1].Username] = user[1]
@@ -123,8 +124,11 @@ wss.on('connection', function connection(ws) {
                 //database.Companies[data.name].stocks += data.amount
                 user.Balance -= data.amount * database.Companies[data.name].products[data.product].price
                 var orderId = createUuid()
-                if(user.orders==undefined){
+                if(typeof user.orders=="undefined"){
                     user.orders={}
+                }
+                if(typeof user.orders[data.name]=="undefined"){
+                    user.orders[data.name]=[]
                 }
                 user.orders[data.name].push({
                     product: data.product,
@@ -132,7 +136,7 @@ wss.on('connection', function connection(ws) {
                     company: data.name,
                     price: data.amount * database.Companies[data.name].products[data.product].price
                 })
-                if(database.Companies[data.name].orders == undefined){
+                if(typeof database.Companies[data.name].orders == "undefined"){
                     database.Companies[data.name].orders={}
                 } 
                 database.Companies[data.name].orders[orderId] = {
@@ -143,7 +147,7 @@ wss.on('connection', function connection(ws) {
                     'status': 'ordered'
                 }
                 var owner = database.Users[database.Companies[data.name].owner]
-                if(owner.Notifications==undefined){
+                if(typeof owner.Notifications == "undefined"){
                     owner.Notifications =[]
                 }
                 var notifications = owner.Notifications

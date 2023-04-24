@@ -116,7 +116,8 @@ async function main(ws, data) {
                 'products': {},
                 'worth': 0,
                 'stocks': 0,
-                'soldStocks': 0
+                'soldStocks': 0,
+                
             }
             console.log(company)
             database.Companies[data.name] = company

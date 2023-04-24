@@ -28,7 +28,7 @@ loginButton.addEventListener("click", async(e) => {
     }else{
         sessionStorage.setItem("sessionId", res);
         console.log(location.host)
-    window.location.replace(`http://${location.host}:${location.port}/html/dashboard.html`)
+    window.location.replace(`http://${location.host}/html/dashboard.html`)
     }
     console.log(res)
 })

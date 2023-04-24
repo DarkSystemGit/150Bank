@@ -36,7 +36,8 @@ async function connection(message, url) {
             product.image.src = '/../images/Companies/'+productData.image
             product.category.innerHTML ='Category: '+ productData.category
             product.description.innerHTML = productData.description
-            document.getElementById('buy').addEventListener('click',async()=>{
+            document.getElementById('buy').addEventListener('click',async(e)=>{
+                e.preventDefault()
                 await connection({
                     type: 'orderProduct',
                     name:productData.company,
@@ -44,7 +45,8 @@ async function connection(message, url) {
                     amount:1, 
                     id:sessionStorage.getItem('sessionId')
                 }, `${location.hostname}:5003`)
+                window.location.replace(`http://${location.host}/html/market.html`)
             })
-            window.location.replace(`http://${location.host}/html/market.html`)
+            //window.location.replace(`http://${location.host}/html/market.html`)
         }
     })()

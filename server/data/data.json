@@ -63,25 +63,25 @@
                     "image": "testPrdtImg.png",
                     "description": "test",
                     "price": 0,
-                    "category": "books"
+                    "category": "Books"
                 }, "tesk": {
                     "name": "tesk",
                     "image": "testPrdtImg.png",
                     "description": "test",
                     "price": 0,
-                    "category": "books"
+                    "category": "Books"
                 }, "tesr": {
                     "name": "tesr",
                     "image": "testPrdtImg.png",
                     "description": "test",
                     "price": 0,
-                    "category": "books"
+                    "category": "Books"
                 }, "tesp": {
                     "name": "tesp",
                     "image": "testPrdtImg.png",
                     "description": "test",
                     "price": 0,
-                    "category": "books"
+                    "category": "Books"
                 }
             },
             "worth": 10,

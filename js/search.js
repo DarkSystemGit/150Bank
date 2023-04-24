@@ -57,7 +57,7 @@ async function connection(message, url) {
 
   (async function () {
   var searchBar = document.getElementById('searchBar')
-  console.log(searchBar)
+  console.log(document.getElementById("search"))
   document.getElementById('search').addEventListener('submit',async(e)=>{
     e.preventDefault()
     await searchResults(searchBar.value)

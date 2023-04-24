@@ -7,7 +7,8 @@
     <title>Market</title>
     <link rel="stylesheet" href="./../css/uikit.min.css" />
     <script src="./../js/uikit.min.js"></script>
-    <script src="./../js/search.js"></script>
+    <script src="./../js/product.js"></script>
+    <script defer src="./../js/search.js"></script>
     <script src="./../js/uikit-icons.min.js"></script>
 
     <!--script defer src="./../js/search.js"></script-->
@@ -107,37 +108,21 @@
     </div>
 
     <div class="topbar">
-      <form
-        class="uk-search uk-search-default"
-        style="margin-left: 37%; margin-top: 2%"
-      >
+      <form class="uk-search uk-search-default" id="search" style="margin-left: 37%;margin-top: 2%;">
         <span uk-search-icon></span>
-        <input
-          id="searchBar"
-          class="uk-search-input"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </form>
-      <span
-        style="margin-right: 2.5%; margin-top: 1.5%"
-        class="uk-icon-hover uk-icon-link uk-position-top-right"
-        uk-icon="icon:cart; ratio:2.3;"
-      ></span>
-    </div>
+        <input id="searchBar" class="uk-search-input" type="search" placeholder="Search" aria-label="Search">
+        <!--span class="uk-icon-flip" uk-icon="icon:close"></span-->
+    </form>
     <div
       id="main"
-      style="margin-top: 14.3vh; margin-left: 14.8vw; max-width: 84vw"
-    >
+      style="margin-top: 14.3vh; margin-left: 14.8vw; max-width: 84vw">
       <div style="display: flex">
         <img
           class="uk-border-rounded"
           src="./../images/Companies/DogeBaNk.png"
           style="width: 50%; height: 50%; margin: 0"
           alt=""
-          id="productImage"
-        />
+          id="productImage"/>
         <div style="display: block; margin-left: 1%">
           <h1 style="margin: 0; margin-left: 1vw; font-size: 10vw" id="productName">Bank</h1>
 

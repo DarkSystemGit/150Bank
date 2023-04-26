@@ -1,24 +1,24 @@
 function cartResults() {
-    //console.log(items)
-    var cart = JSON.parse(sessionStorage.getItem('cart'))
-    console.log(cart)
-    var list = document.createElement('div')
-    list.innerHTML = `<ul id="cartResults" class="uk-list uk-list-divider">
+  //console.log(items)
+  var cart = JSON.parse(sessionStorage.getItem('cart'))
+  console.log(cart)
+  var list = document.createElement('div')
+  list.innerHTML = `<ul id="cartResults" class="uk-list uk-list-divider">
       
     </ul>`
-    if(cart.length ==0){
-      list.innerHTML = `<ul id="cartResults" class="uk-list uk-list-divider">
+  if (cart.length == 0) {
+    list.innerHTML = `<ul id="cartResults" class="uk-list uk-list-divider">
       Nothing Found
     </ul>`
-    }
-    document.getElementById('main').innerHTML = ""
-    document.getElementById('main').appendChild(list)
+  }
+  document.getElementById('main').innerHTML = ""
+  document.getElementById('main').appendChild(list)
+  console.log(cart)
+  for (var counter = 0; counter < cart.length; counter++) {
     console.log(cart)
-    for (var counter = 0; counter < cart.length; counter++) {
-      console.log(cart)
-      var result = document.createElement('li')
-      
-      var cartResult = `
+    var result = document.createElement('li')
+
+    var cartResult = `
           <img src="./../images/Companies/${cart[counter].image}" style="width:14%;height:14%;"  alt="">                
                   <div style="display: block;margin-left: 1%;">
                       <h1 style="margin: 0;">${cart[counter].name}</h1>
@@ -27,15 +27,32 @@ function cartResults() {
                       <p style="margin: 0;">${cart[counter].description}</p>
                   </div>
           `
-      var resHtml = document.createElement('div')
-      resHtml.style.display = 'flex'
-      resHtml.innerHTML = cartResult
-      result.appendChild(resHtml)
-      document.getElementById('cartResults').appendChild(result)
-    }
+    var resHtml = document.createElement('div')
+    resHtml.style.display = 'flex'
+    resHtml.innerHTML = cartResult
+    result.appendChild(resHtml)
+    document.getElementById('cartResults').appendChild(result)
+
   }
-  //set cart
-  sessionStorage.setItem('cart',(JSON.stringify([{name:"test",price:0,description:"test",image:"pencil.png"},{name:"tesk",price:1,description:"tesp",image:"pencil.png"}])))
-  console.log(sessionStorage.getItem('cart'))
-  //render cart
-  cartResults()
+}
+async function buyProducts(cart) {
+  for (var counter = 0; counter < cart.length; counter++) {
+    await connection({
+      type: 'orderProduct',
+      name: cart[counter].company,
+      product: cart[counter].name,
+      amount: cart[counter].amount,
+      id: sessionStorage.getItem('sessionId')
+    }, `${location.hostname}:5003`)
+  }
+}
+//set cart
+//sessionStorage.setItem('cart',(JSON.stringify([{name:"test",price:0,description:"test",image:"pencil.png"},{name:"tesk",price:1,description:"tesp",image:"pencil.png"}])))
+console.log(sessionStorage.getItem('cart'))
+//render cart
+cartResults()
+document.getElementById('buy').addEventListener('click', async () => {
+  var cart = JSON.parse(sessionStorage.getItem('cart'))
+  await buyProducts(cart)
+  
+})

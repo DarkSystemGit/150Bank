@@ -115,64 +115,45 @@ wss.on('connection', function connection(ws) {
                         return v.toString(16);
                     });
                 }
-                console.log(JSON.stringify(data))
-                console.log(users)
-                var user = users[data.id][1]
-                var compName = data.name
-                if(!(database.Companies[data.name].products[data.product].quantity==0)){
-                    //user.Stocks[compName] = 100 * (data.amount * [database.Companies[data.name].worth / database.Companies[data.name].stocks]) / database.Companies[data.name].worth
-                //database.Companies[data.name].stocks += data.amount
-                user.Balance -= data.amount * database.Companies[data.name].products[data.product].price
-                var orderId = createUuid()
-                if(typeof user.orders=="undefined"){
-                    user.orders={}
-                }
-                if(typeof user.orders[data.name]=="undefined"){
-                    user.orders[data.name]=[]
-                }
-                user.orders[data.name].push({
-                    product: data.product,
-                    id: orderId,
-                    company: data.name,
-                    price: data.amount * database.Companies[data.name].products[data.product].price
-                })
-                if(typeof database.Companies[data.name].orders == "undefined"){
-                    database.Companies[data.name].orders={}
-                } 
-                database.Companies[data.name].orders[orderId] = {
-                    'amount': data.amount,
-                    'price': data.amount * database.Companies[data.name].products[data.product].price,
-                    'user': user.Username,
-                    'product': data.product,
-                    'status': 'ordered'
-                }
-                var owner = database.Users[database.Companies[data.name].owner]
-                if(typeof owner.Notifications == "undefined"){
-                    owner.Notifications =[]
-                }
-                var notifications = owner.Notifications
-                notifications.push({
-                    'type': 'buyProduct',
-                    'user': user.Username,
-                    'product': data.product,
-                    'amount': data.amount,
-                    'cost': data.amount * database.Companies[data.name].products[data.product].price,
-                    'company':compName
-                })
-                database.Users[owner.Username] = owner
-                database.Users[user.Username] = user
-                console.log(user)
-                fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
-                ws.send(JSON.stringify({
-                    order: orderId,
-                    status: 'ordered'
-                }))
-                }else{
+            
+                console.log(JSON.stringify(data));
+                console.log(users);
+                var user = users[data.id][1];
+                var compName = data.name;
+            
+                if (database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price) {
+                    // Update the user's balance
+                    user.Balance -= data.amount * database.Companies[data.name].products[data.product].price;
+            
+                    // Update the quantity of the product in the database
+                    database.Companies[data.name].products[data.product].quantity--;
+            
+                    // Create a new order
+                    var orderId = createUuid();
+                    var order = {
+                        orderId: orderId,
+                        user: user.Username,
+                        product: data.product,
+                        amount: data.amount,
+                        price: data.amount * database.Companies[data.name].products[data.product].price,
+                        company: data.name,
+                        status: 'ordered'
+                    };
+                    user.orders[data.name].push(order);
+                    database.Companies[data.name].orders[orderId] = order;
+            
+                    // Save the database
+                    fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database));
+            
+                    // Send a response to the websocket
                     ws.send(JSON.stringify({
-                        status: 'No products left'
-                    }))
+                        order: orderId,
+                        status: 'ordered'
+                    }));
+                } else {
+                    // Send an error message to the websocket
+                    ws.send('error');
                 }
-                
             } else if (data.type === 'buyProduct') {
                 console.log(JSON.stringify(data))
                 console.log(users)

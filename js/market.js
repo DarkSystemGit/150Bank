@@ -9,14 +9,8 @@ function createProduct(name, image, cost, description, category) {
         <h4 style="text-align: center;">$${cost}</h4>
     </div>
     <div class="uk-card-media-bottom">
-      <img id="${name}Button" src="./../images/Buy Now.svg" style="width:100%;height:50%;" alt="">
-      <script>
-      var elm = document.getElementById("${name}Button");
-      console.log('run')
-      elm.addEventListener('click',async function(){
-        window.location.replace('${location.host}/html/signup.html')
-      })
-      <script>
+      <img id="${name}Button" src="./../images/Buy Now.svg" onclick="window.location.replace('http://'+location.host+'/html/productDetails.html?name=${name}')" style="padding:0px;width:100%;height:fit-content;" alt="">
+      
   </div>`
   var elm = document.createElement('div')
   elm.classList.add('uk-card', 'uk-card-default', 'uk-width-1-4')

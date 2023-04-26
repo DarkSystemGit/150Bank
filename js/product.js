@@ -38,15 +38,16 @@ async function connection(message, url) {
             product.description.innerHTML = productData.description
             document.getElementById('buy').addEventListener('click',async(e)=>{
                 e.preventDefault()
-                await connection({
-                    type: 'orderProduct',
-                    name:productData.company,
-                    product:name,
-                    amount:1, 
-                    id:sessionStorage.getItem('sessionId')
-                }, `${location.hostname}:5003`)
-                window.location.replace(`http://${location.host}/html/market.html`)
+                var cart =JSON.parse(sessionStorage.getItem('cart'))
+                if(typeof cart == "undefined"){
+                    cart =[]
+                }
+                productData.amount =parseInt(document.getElementById('productAmount').value)
+                cart.push(productData)
+                sessionStorage.setItem('cart',JSON.stringify(cart))
+                window.location.replace(`http://${location.host}/html/cart.html`)
             })
+            
             //window.location.replace(`http://${location.host}/html/market.html`)
         }
     })()

@@ -23,19 +23,24 @@ async function searchResults(query) {
   for (var counter = 0; counter < search.length; counter++) {
 
     var result = document.createElement('li')
-    result.addEventListener('click',function(){})
+   
     var searchResult = `
-        <img src="./../images/Companies/${search[counter].image}" style="width:14%;height:14%;"  alt="">                
+    <div style="display:flex;" onclick="console.log('${search[counter]}');window.location.replace('http://'+location.host+'/html/productDetails.html?name=${search[counter].name}')">
+        <img src="./../images/Companies/${search[counter].image}" style="width:10vw;height:10vw;"  alt="">                
                 <div style="display: block;margin-left: 1%;">
                     <h1 style="margin: 0;">${search[counter].name}</h1>
                     <h4 style="margin: 0;">$${search[counter].price}</h3>
                     <div style="margin-top:2.5%;width: 1px;height: 1px;"></div>
                     <p style="margin: 0;">${search[counter].description}</p>
                 </div>
+    </div>
         `
     var resHtml = document.createElement('div')
     resHtml.style.display = 'flex'
     resHtml.innerHTML = searchResult
+    console.log(counter)
+    
+    //resHtml.addEventListener('click',window.linkReplace.bind(null))
     result.appendChild(resHtml)
     document.getElementById('searchResults').appendChild(result)
   }

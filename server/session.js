@@ -5,31 +5,75 @@ const wss = new WebSocketServer.Server({
     port: 5003
 });
 var users = {};
+
+function log(data) {
+
+    let date_ob = new Date();
+    if (!(typeof data.type == "undefined")) {
+        var functionName = data.type
+    } else {
+        var functionName = "unknownFunction"
+    }
+    if (!(typeof data == "string")) {
+        data = JSON.stringify(data, null, 2)
+    }
+    // current date
+    // adjust 0 before single digit date
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    // current month
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    // current year
+    let year = date_ob.getFullYear();
+
+    // current hours
+    let hours = date_ob.getHours();
+
+    // current minutes
+    let minutes = date_ob.getMinutes();
+
+    // current seconds
+    let seconds = date_ob.getSeconds();
+
+    // prints date in YYYY-MM-DD format
+    //console.log(year + "-" + month + "-" + date);
+
+    // prints date & time in YYYY-MM-DD HH:MM:SS format
+    console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "| Log from method: " + functionName + "():\n" + data);
+
+}
 wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
 
     ws.on('message', function message(data) {
-        
+
         data = JSON.parse(data)
-        console.log(data)
+
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
         try {
+
+            try {
+                log(`Connection From ${users[data.id][1].Username}`)
+            } catch {
+                log("Not signed in")
+            }
             if (data.type === 'login') {
                 var user = [data.id, database.Users[data.name]]
                 users[data.id] = user
-                console.log(user)
+                log(user)
             } else if (data.type === 'createComp') {
                 var user = users[data.id]
                 database.Companies[data.name].owner = user.Username
                 user[1].Companies.push(data.name)
                 user[1].Stocks[data.name] = 100
                 database.Users[user[1].Username] = user[1]
-                console.log(user)
+                log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
             } else if (data.type === 'buyStock') {
-                console.log(JSON.stringify(data))
-                console.log(users)
+                log(JSON.stringify(data))
+                log(users)
                 if (parseFloat(data.amount) * (parseFloat(database.Companies[data.name].worth) / parseFloat(database.Companies[data.name].stocks)) >= parseFloat(database.Companies[data.name].worth)) {
                     ws.send('too many')
 
@@ -44,14 +88,14 @@ wss.on('connection', function connection(ws) {
                     database.Companies[data.name].worth += data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
                     user.Balance -= data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks)
 
-                    console.log(database.Companies[data.name])
+                    log(database.Companies[data.name])
                     if (user.Stocks[compName] > 50) {
                         user.Companies.push(data.name)
                     } else if (user.Companies.includes(data.name) && user.Stocks[compName] <= 50) {
                         user.Companies.splice(user.Companies.indexOf(data.name), 1)
                     }
                     database.Users[user.Username] = user
-                    console.log(user)
+                    log(user)
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                     ws.send('done')
                 }
@@ -72,7 +116,7 @@ wss.on('connection', function connection(ws) {
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
             } else if (data.type === 'createProduct') {
-                console.log('prdct')
+                log('prdct')
                 var user = users[data.id][1]
                 var products = database.Companies[data.company].products
                 var imageType;
@@ -83,7 +127,9 @@ wss.on('connection', function connection(ws) {
                 } else if (data.image.includes('jpg')) {
                     imageType = 'jpg'
                 } else {
-                    ws.send(JSON.stringify({message:'error'}))
+                    ws.send(JSON.stringify({
+                        message: 'error'
+                    }))
                 }
                 var image = {
                     fileName: `${data.name}PrdtImg.${imageType}`,
@@ -96,13 +142,13 @@ wss.on('connection', function connection(ws) {
                         'image': image.fileName,
                         'description': data.description,
                         'price': data.price,
-                        'category':data.category,
-                        'quantity':data.quantity
+                        'category': data.category,
+                        'quantity': data.quantity
                     }
                 }
-                console.log(products[data.name])
+                log(products[data.name])
                 database.Users[user.Username] = user
-                console.log(user)
+                log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
 
@@ -115,19 +161,19 @@ wss.on('connection', function connection(ws) {
                         return v.toString(16);
                     });
                 }
-            
-                console.log(JSON.stringify(data));
-                console.log(users);
+
+                log(JSON.stringify(data));
+                log(users);
                 var user = users[data.id][1];
                 var compName = data.name;
-            
+
                 if (database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price) {
                     // Update the user's balance
                     user.Balance -= data.amount * database.Companies[data.name].products[data.product].price;
-            
+
                     // Update the quantity of the product in the database
                     database.Companies[data.name].products[data.product].quantity--;
-            
+
                     // Create a new order
                     var orderId = createUuid();
                     var order = {
@@ -141,10 +187,10 @@ wss.on('connection', function connection(ws) {
                     };
                     user.orders[data.name].push(order);
                     database.Companies[data.name].orders[orderId] = order;
-            
+
                     // Save the database
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database));
-            
+
                     // Send a response to the websocket
                     ws.send(JSON.stringify({
                         order: orderId,
@@ -155,51 +201,60 @@ wss.on('connection', function connection(ws) {
                     ws.send('error');
                 }
             } else if (data.type === 'buyProduct') {
-                console.log(JSON.stringify(data))
-                console.log(users)
+                log(JSON.stringify(data))
+                log(users)
                 var user = users[data.id][1]
                 var compName = data.name
-                
+
                 var order = database.Companies[user.name].orders[data.orderId]
                 order.status = 'delivered'
                 var owner = database.Users[database.Companies[data.name].owner]
                 owner.Balance += order.cost
                 database.Users[user.Username] = user
-                console.log(user)
+                log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send(JSON.stringify({
                     order: orderId,
                     status: 'delivered'
                 }))
-            }else if (data.type === 'emitStock') {
+            } else if (data.type === 'emitStock') {
                 var user = users[data.id][1]
-                if(user.Companies.includes(data.name)){
+                if (user.Companies.includes(data.name)) {
                     database.Companies.stocks += data.amount
-                }else{ws.send('incorrect user')}
-            }else if (data.type === 'viewBalance'){
+                } else {
+                    ws.send('incorrect user')
+                }
+            } else if (data.type === 'viewBalance') {
                 var user = users[data.id][1]
                 ws.send(JSON.stringify(user.Balance))
-            }else if (data.type === 'addBalance'){
+            } else if (data.type === 'addBalance') {
                 var user = users[data.id][1]
                 user.Balance += parseFloat(data.amount)
                 ws.send('done')
-            }else if (data.type === 'subtractBalance'){
+            } else if (data.type === 'subtractBalance') {
                 var user = users[data.id][1]
                 user.Balance -= parseFloat(data.amount)
                 ws.send('done')
-            }else if (data.type === 'viewUser'){
-                console.log(data)
+            } else if (data.type === 'viewUser') {
+                log(data)
                 ws.send(JSON.stringify(users[data.id][1]))
-            }else if (data.type === 'editUser'){
+            } else if (data.type === 'editUser') {
                 users[data.id][1] = data.user
                 database.Users[user.Username] = data.user
-                console.log(user)
+                log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
-            }   
+            }
 
-        } catch(e) {
-            console.log('err: '+e.message)
-            ws.send(JSON.stringify({message:'error'}))
+        } catch (e) {
+            try {
+                log(`Error In Connection From ${users[data.id][1].Username}:\n${e.message}`)
+            } catch {
+                log("Not signed in")
+            }
+            
+            ws.send(JSON.stringify({
+                message: 'error'
+            }))
         }
     });
 

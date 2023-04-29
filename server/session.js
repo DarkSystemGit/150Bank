@@ -94,6 +94,16 @@ wss.on('connection', function connection(ws) {
                     } else if (user.Companies.includes(data.name) && user.Stocks[compName] <= 50) {
                         user.Companies.splice(user.Companies.indexOf(data.name), 1)
                     }
+                    var owner = database.Users[database.Companies[data.name].owner]
+                var notifications = owner.Notifications;
+                notifications.push({
+                    'type': 'buyStock',
+                    'user': user.Username,
+                    'amount': data.amount,
+                    'cost': data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks),
+                    'company': compName
+                });
+                database.Users[owner.Username] = owner
                     database.Users[user.Username] = user
                     log(user)
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
@@ -112,7 +122,17 @@ wss.on('connection', function connection(ws) {
                 } else if (user.Companies.includes(data.name) && user.Stocks[compName] >= 50) {
                     user.Companies.splice(user.Companies.indexOf(data.name), 1)
                 }
+                var owner = database.Users[database.Companies[data.name].owner]
+                var notifications = owner.Notifications;
+                notifications.push({
+                    'type': 'sellStock',
+                    'user': user.Username,
+                    'amount': data.amount,
+                    'cost': data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks),
+                    'company': compName
+                });
                 database.Users[user.Username] = user
+                database.Users[owner.Username] = owner
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
                 ws.send('done')
             } else if (data.type === 'createProduct') {
@@ -168,37 +188,83 @@ wss.on('connection', function connection(ws) {
                 var compName = data.name;
 
                 if (database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price) {
-                    // Update the user's balance
+                    // This code handles the purchase of a product.
+
+                    // First, we need to deduct the cost of the product from the user's balance.
                     user.Balance -= data.amount * database.Companies[data.name].products[data.product].price;
 
-                    // Update the quantity of the product in the database
-                    database.Companies[data.name].products[data.product].quantity--;
-
-                    // Create a new order
+                    // Next, we need to create a new order ID.
                     var orderId = createUuid();
-                    var order = {
-                        orderId: orderId,
-                        user: user.Username,
-                        product: data.product,
-                        amount: data.amount,
-                        price: data.amount * database.Companies[data.name].products[data.product].price,
-                        company: data.name,
-                        status: 'ordered'
-                    };
-                    user.orders[data.name].push(order);
-                    database.Companies[data.name].orders[orderId] = order;
 
-                    // Save the database
+                    // If the user does not have an orders object, we need to create one.
+                    if (typeof user.orders == "undefined") {
+                        user.orders = {};
+                    }
+
+                    // If the user does not have an orders object for the company that they are buying from, we need to create one.
+                    if (typeof user.orders[data.name] == "undefined") {
+                        user.orders[data.name] = [];
+                    }
+
+                    // We need to add the new order to the user's orders object.
+                    user.orders[data.name].push({
+                        product: data.product,
+                        id: orderId,
+                        company: data.name,
+                        price: data.amount * database.Companies[data.name].products[data.product].price
+                    });
+
+                    // If the company does not have an orders object, we need to create one.
+                    if (typeof database.Companies[data.name].orders == "undefined") {
+                        database.Companies[data.name].orders = {};
+                    }
+
+                    // We need to add the new order to the company's orders object.
+                    database.Companies[data.name].orders[orderId] = {
+                        'amount': data.amount,
+                        'price': data.amount * database.Companies[data.name].products[data.product].price,
+                        'user': user.Username,
+                        'product': data.product,
+                        'status': 'ordered'
+                    };
+
+                    // We need to get the owner of the company that the user is buying from.
+                    var owner = database.Users[database.Companies[data.name].owner];
+
+                    // If the owner does not have a notifications object, we need to create one.
+                    if (typeof owner.Notifications == "undefined") {
+                        owner.Notifications = [];
+                    }
+
+                    // We need to add a new notification to the owner's notifications object.
+                    var notifications = owner.Notifications;
+                    notifications.push({
+                        'type': 'soldProduct',
+                        'user': user.Username,
+                        'product': data.product,
+                        'amount': data.amount,
+                        'cost': data.amount * database.Companies[data.name].products[data.product].price,
+                        'company': compName
+                    });
+
+                    // We need to update the database with the new order.
+                    database.Users[owner.Username] = owner;
+                    database.Users[user.Username] = user;
+
+                    // We can log the user object for debugging purposes.
+                    log(user);
+
+                    // We need to write the updated database to a file.
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database));
 
-                    // Send a response to the websocket
+                    // We need to send a message to the websocket server to notify the user that their order has been placed.
                     ws.send(JSON.stringify({
                         order: orderId,
                         status: 'ordered'
                     }));
                 } else {
                     // Send an error message to the websocket
-                    ws.send('error');
+                    ws.send('Nothing left');
                 }
             } else if (data.type === 'buyProduct') {
                 log(JSON.stringify(data))
@@ -251,7 +317,7 @@ wss.on('connection', function connection(ws) {
             } catch {
                 log("Not signed in")
             }
-            
+
             ws.send(JSON.stringify({
                 message: 'error'
             }))

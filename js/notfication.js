@@ -15,7 +15,7 @@ function renderNotfication(noteObj,onclick,content){
     
     <a style="text-decoration: none; color: black">
       <div style="display: flex">
-        <img src="./../images/Companies/${noteObj.image}" class="uk-border-rounded"style="margin-right: 1%;height:10vw;width:10vw" alt="" />
+        <img src="./../images/Companies/${noteObj.image}" class="uk-border-rounded"style="margin-right: 1%;height:15vw;width:15vw" alt="" />
         <div>
           <h2>${noteObj.name}</h2>
           ${optinalType}

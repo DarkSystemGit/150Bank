@@ -1,5 +1,5 @@
 function renderNotfication(noteObj,onclick,content){
-  console.log(noteObj)
+  console.log(noteObj.image)
   if (noteObj.content == null) {
     var content = ""
   }else{
@@ -15,7 +15,7 @@ function renderNotfication(noteObj,onclick,content){
     
     <a style="text-decoration: none; color: black">
       <div style="display: flex">
-        <img src="./../images/Companies/${noteObj.image}" class="uk-border-rounded"style="margin-right: 1%;height:9vw;width:9vw" alt="" />
+        <img src="./../images/Companies/${noteObj.image}" class="uk-border-rounded"style="margin-right: 1%;height:10vw;width:10vw" alt="" />
         <div>
           <h2>${noteObj.name}</h2>
           ${optinalType}
@@ -71,21 +71,22 @@ async function getUserNotfications(){
 }
 async function patchNotfication(){
   var notfications = await getUserNotfications()
-  var res=notfications.map(async noteObj => {
+  var res=await Promise.all(notfications.map(async (noteObj) => {
     if(noteObj.type == 'soldProduct'){
       noteObj.type='Product Sale'
     }else if(noteObj.type== 'order'){
       noteObj.type='Order'
       noteObj.name =noteObj.product
-      noteObj.content =`<h4 style="margin-top:2%;">Price: <span>${noteObj.price}</span></h4>`
-      noteObj.image = JSON.parse(await connection({type: 'getProductData',name:noteObj.product}, `${location.hostname}:5002`)).image
+      noteObj.content =`<h4 style="margin-top:0.5%;">Price: <span>${noteObj.price}</span></h4>`
+      var image = JSON.parse(await connection({type: 'getProductData',name:noteObj.product}, `${location.hostname}:5002`)).image
+      noteObj.image = image
     }else if(noteObj.type== 'sellStock'){
       noteObj.type='Stock Sale'
     }else if(noteObj.type== 'buyStock'){
       noteObj.type='Stock Order'
     }
     return noteObj
-  })
+  }))
   return res
 }
 async function renderNotfications(){

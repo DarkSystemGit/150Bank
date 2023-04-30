@@ -1,4 +1,5 @@
 function renderNotfication(noteObj,onclick,content){
+  console.log(noteObj)
   if (noteObj.content == null) {
     var content = ""
   }else{
@@ -7,7 +8,7 @@ function renderNotfication(noteObj,onclick,content){
   if (noteObj.type == null) {
     var optinalType
   }else{
-    var optinalType = `<h4 style="margin-top:2%;">Type: <span>${noteObj.type}</span></h4>`
+    var optinalType = `<h4 style="margin-top:1%;">Type: <span>${noteObj.type}</span></h4>`
   
   }
     var html = `      
@@ -52,8 +53,10 @@ async function getUserNotfications(){
     type: 'viewUser',
     id:sessionStorage.getItem('sessionId')
   }, `${location.hostname}:5003`))
+  console.log(userData)
   var notfications = []
   Object.keys(userData.orders).forEach(key => {
+    console.log(key)
     let rawOrders = userData.orders[key]
     let orders = rawOrders.map(order => {
       order.type = 'order'
@@ -61,16 +64,21 @@ async function getUserNotfications(){
     })
     notfications.push(...orders)
   })
-  notfications.push(...userData.Notfications)
+  if(!(userData.Notfications == null)){
+    notfications.push(...userData.Notfications)
+  }
   return notfications
 }
 async function patchNotfication(){
   var notfications = await getUserNotfications()
-  var res=notfications.map(noteObj => {
+  var res=notfications.map(async noteObj => {
     if(noteObj.type == 'soldProduct'){
       noteObj.type='Product Sale'
     }else if(noteObj.type== 'order'){
       noteObj.type='Order'
+      noteObj.name =noteObj.product
+      noteObj.content =`<h4 style="margin-top:2%;">Price: <span>${noteObj.price}</span></h4>`
+      noteObj.image = JSON.parse(await connection({type: 'getProductData',name:noteObj.product}, `${location.hostname}:5002`)).image
     }else if(noteObj.type== 'sellStock'){
       noteObj.type='Stock Sale'
     }else if(noteObj.type== 'buyStock'){
@@ -82,6 +90,7 @@ async function patchNotfication(){
 }
 async function renderNotfications(){
   var notfications = await patchNotfication()
+  console.log('notficatins: '+notfications)
   notfications.forEach(noteObj => {
     let html =renderNotfication(noteObj,()=>{window.location.replace(`http://${location.host}/html/notficationDetails.html?name=${noteObj.name}`)})
     if(noteObj.type=='Order'||noteObj.type=='Stock Order'){
@@ -93,5 +102,5 @@ async function renderNotfications(){
 
 }
 (async ()=>{
-  await renderNotfication()
+  await renderNotfications()
 })()

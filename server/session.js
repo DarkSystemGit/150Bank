@@ -302,7 +302,7 @@ wss.on('connection', function connection(ws) {
                 user.Balance -= parseFloat(data.amount)
                 ws.send('done')
             } else if (data.type === 'viewUser') {
-                log(data)
+                log(JSON.stringify(users[data.id][1]))
                 ws.send(JSON.stringify(users[data.id][1]))
             } else if (data.type === 'editUser') {
                 users[data.id][1] = data.user

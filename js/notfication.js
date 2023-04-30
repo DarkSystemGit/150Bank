@@ -83,8 +83,12 @@ async function patchNotfication(){
 async function renderNotfications(){
   var notfications = await patchNotfication()
   notfications.forEach(noteObj => {
-    if(noteObj.type=='Order'){
+    let html =renderNotfication(noteObj,()=>{window.location.replace(`http://${location.host}/html/notficationDetails.html?name=${noteObj.name}`)})
+    if(noteObj.type=='Order'||noteObj.type=='Stock Order'){
       
+      document.getElementById('orders').appendChild(html)
+    }else{
+      document.getElementById('transaction').appendChild(html)
     }
   })
 

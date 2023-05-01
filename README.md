@@ -4,7 +4,7 @@ Doge Bank is a experiment created as a joke about creating you own economy to us
  
 ## Installation
 
-Use the  [git](https://git-scm.com/) to install Doge Bank.
+Use [git](https://git-scm.com/) to install Doge Bank.
 Also download the [UIkit](https;//getuikit.com) CSS libary and move its CSS files into the /css folder. The same with the JS files, except you move them to the /js folder.
 
 ```bash

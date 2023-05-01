@@ -22,7 +22,7 @@ cd ./uikit-3.16.15
 mv ./css/* ./../150Bank/css/
 mv ./js/* ./../150Bank/js/
 cd ./../
-
+npm install ./150Bank/
 ```
 
 ## Usage

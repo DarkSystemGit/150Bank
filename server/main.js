@@ -108,7 +108,7 @@ async function main(ws, data) {
                 fileName: `${data.name}.${imageType}`,
                 data: data.image.replace(`data:image/${imageType};base64,`, '')
             }
-            fs.writeFileSync(`${__dirname.replace('/server','')}/images/Companies/${image.fileName}`, image.data, 'base64');
+            fs.writeFileSync(`${__dirname.replace('/server','')}/client/images/Companies/${image.fileName}`, image.data, 'base64');
             var company = {
                 'description': data.description,
                 'name': data.name,

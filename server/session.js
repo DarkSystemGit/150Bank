@@ -155,7 +155,7 @@ wss.on('connection', function connection(ws) {
                     fileName: `${data.name}PrdtImg.${imageType}`,
                     data: data.image.replace(`data:image/${imageType};base64,`, '')
                 }
-                fs.writeFileSync(`${__dirname.replace('/server','')}/images/Companies/${image.fileName}`, image.data, 'base64');
+                fs.writeFileSync(`${__dirname.replace('/server','')}/client/images/Companies/${image.fileName}`, image.data, 'base64');
                 if (user.Companies.includes(data.company)) {
                     products[data.name] = {
                         'name': data.name,

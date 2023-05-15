@@ -19,10 +19,11 @@ wget https://github.com/uikit/uikit/releases/download/v3.16.15/uikit-3.16.15.zip
 #If you don't use Linux, just google how to unzip from the command line
 unzip ./uikit-3.16.15.zip
 cd ./uikit-3.16.15
-mv ./css/* ./../150Bank/css/
-mv ./js/* ./../150Bank/js/
+mv ./css/* ./../150Bank/client/css/
+mv ./js/* ./../150Bank/client/js/
 cd ./../
 npm install ./150Bank/
+ln -s ./150Bank/client/ /Path/To/Your/Web/Server/150Bank/
 ```
 
 ## Usage

@@ -27,9 +27,12 @@ async function getUserNotfications(){
       }else if(noteObj.type== 'order'){
         noteObj.type='Order'
         noteObj.name =noteObj.product
+        console.log(noteObj)
+        delete noteObj.product
         noteObj.content =`<h4 style="margin-top:0.5%;">Price: <span>${noteObj.price}</span></h4>`
         var image = JSON.parse(await connection({type: 'getProductData',name:noteObj.product}, `${location.hostname}:5002`)).image
         noteObj.image = image
+        //noteObj["Order Id"] = noteObj.id
       }else if(noteObj.type== 'sellStock'){
         noteObj.type='Stock Sale'
       }else if(noteObj.type== 'buyStock'){
@@ -55,7 +58,10 @@ async function getUserNotfications(){
   }
   function getUrlPrams(){
     const urlParams = new URLSearchParams(window.location.search);
-    const keys=urlParams.keys()
+    const keys=[]
+    for(var key of urlParams.keys()) { 
+      keys.push(key)
+    }
     var prams ={}
     keys.forEach((key)=>{
         prams[key]=urlParams.get(key)
@@ -80,18 +86,22 @@ async function getUserNotfications(){
     elm.appendChild(childWrapper)
   }
   function renderNotficationData(item){
-    for(var counter =0; counter<item.keys().length;counter++){
-      var template = `<h4>${item.keys()[counter]}: ${item[item.keys()[counter]]}<h4>`
-      if(item.keys()[counter]=="name"){
-        document.getElementById('notficationName').innerHTML= item[item.keys()[counter]].name
-      }else if(item.keys()[counter]=="image"){
-        document.getElementById('notficationImage').src='/../images/Companies/'+item[item.keys()[counter]].image
-      }else if(item.keys()[counter]=="content"){
+    for(var counter =0; counter<Object.keys(item).length;counter++){
+      var template = `<h4>${toUppercase(Object.keys(item)[counter])}: ${item[Object.keys(item)[counter]]}<h4>`
+      if(Object.keys(item)[counter]=="name"){
+        console.log(item[Object.keys(item)[counter]])
+        document.getElementById('notficationName').innerHTML= toUppercase(item[Object.keys(item)[counter]])
+      }else if(Object.keys(item)[counter]=="image"){
+        document.getElementById('notficationImage').src='./../images/Companies/'+item[Object.keys(item)[counter]]
+      }else if(Object.keys(item)[counter]=="content"){
         continue
       }else{
-        appendChild(document.getElementById('display'),template)
+        appendChild(document.getElementById('details'),template)
       }
     }
+  }
+  function toUppercase(str){
+    return str.charAt(0).toUpperCase() + str.slice(1)
   }
   (async ()=>{
     var notfication = await getNotfication()

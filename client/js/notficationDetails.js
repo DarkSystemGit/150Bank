@@ -24,15 +24,17 @@ async function getUserNotfications(){
     var res=await Promise.all(notfications.map(async (noteObj) => {
       if(noteObj.type == 'soldProduct'){
         noteObj.type='Product Sale'
+        noteObj.redirect = {company:noteObj.company}
       }else if(noteObj.type== 'order'){
         noteObj.type='Order'
         noteObj.name =noteObj.product
         console.log(noteObj)
         delete noteObj.product
         noteObj.content =`<h4 style="margin-top:0.5%;">Price: <span>${noteObj.price}</span></h4>`
-        var image = JSON.parse(await connection({type: 'getProductData',name:noteObj.product}, `${location.hostname}:5002`)).image
+        var image = JSON.parse(await connection({type: 'getProductData',name:noteObj.name}, `${location.hostname}:5002`)).image
         noteObj.image = image
-        //noteObj["Order Id"] = noteObj.id
+        noteObj["Order Id"] = noteObj.id
+        delete noteObj.id
       }else if(noteObj.type== 'sellStock'){
         noteObj.type='Stock Sale'
       }else if(noteObj.type== 'buyStock'){

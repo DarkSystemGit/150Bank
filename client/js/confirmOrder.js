@@ -28,7 +28,7 @@ async function connection(message, url) {
     return prams
   }
   (async ()=>{
-    document.getElementById('orderInput').addEventListener('submit',async(e)=>{
+    document.getElementById('orderForm').addEventListener('submit',async(e)=>{
         e.preventDefault()
         var id =getOrderData()
         var company = getUrlPrams().company

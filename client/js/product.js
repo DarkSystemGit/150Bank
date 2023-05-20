@@ -39,7 +39,7 @@ async function connection(message, url) {
             document.getElementById('buy').addEventListener('click',async(e)=>{
                 e.preventDefault()
                 var cart =JSON.parse(sessionStorage.getItem('cart'))
-                if(typeof cart == "undefined"){
+                if(typeof cart == "undefined"||cart == null){
                     cart =[]
                 }
                 productData.amount =parseInt(document.getElementById('productAmount').value)

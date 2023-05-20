@@ -24,13 +24,13 @@ async function getUserNotfications(){
     var res=await Promise.all(notfications.map(async (noteObj) => {
       if(noteObj.type == 'soldProduct'){
         noteObj.type='Product Sale'
-        noteObj.redirect = {company:noteObj.company}
+        noteObj.content = `<h4><a herf="${location.host}/html/confirmOrder?company=${noteObj.company}">Confirm Order</a></h4>`
       }else if(noteObj.type== 'order'){
         noteObj.type='Order'
         noteObj.name =noteObj.product
         console.log(noteObj)
         delete noteObj.product
-        noteObj.content =`<h4 style="margin-top:0.5%;">Price: <span>${noteObj.price}</span></h4>`
+        //noteObj.content =`<h4 style="margin-top:0.5%;">Price: <span>${noteObj.price}</span></h4>`
         var image = JSON.parse(await connection({type: 'getProductData',name:noteObj.name}, `${location.hostname}:5002`)).image
         noteObj.image = image
         noteObj["Order Id"] = noteObj.id
@@ -96,7 +96,7 @@ async function getUserNotfications(){
       }else if(Object.keys(item)[counter]=="image"){
         document.getElementById('notficationImage').src='./../images/Companies/'+item[Object.keys(item)[counter]]
       }else if(Object.keys(item)[counter]=="content"){
-        continue
+        appendChild(document.getElementById('details'),item[Object.keys(item)[counter]])
       }else{
         appendChild(document.getElementById('details'),template)
       }

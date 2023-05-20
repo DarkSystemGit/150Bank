@@ -47,7 +47,7 @@ wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
 
     ws.on('message', function message(data) {
-
+        //fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
         data = JSON.parse(data)
 
         var database = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
@@ -186,10 +186,10 @@ wss.on('connection', function connection(ws) {
                 log(users);
                 var user = users[data.id][1];
                 var compName = data.name;
-
+                log(database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price)
                 if (database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price) {
                     // This code handles the purchase of a product.
-
+                    database.Companies[data.name].products[data.product].quantity -= data.amount
                     // First, we need to deduct the cost of the product from the user's balance.
                     user.Balance -= data.amount * database.Companies[data.name].products[data.product].price;
 
@@ -197,12 +197,12 @@ wss.on('connection', function connection(ws) {
                     var orderId = createUuid();
 
                     // If the user does not have an orders object, we need to create one.
-                    if (typeof user.orders == "undefined") {
+                    if (user.orders == undefined) {
                         user.orders = {};
                     }
 
                     // If the user does not have an orders object for the company that they are buying from, we need to create one.
-                    if (typeof user.orders[data.name] == "undefined") {
+                    if (user.orders[data.name] == undefined) {
                         user.orders[data.name] = [];
                     }
 
@@ -215,7 +215,7 @@ wss.on('connection', function connection(ws) {
                     });
 
                     // If the company does not have an orders object, we need to create one.
-                    if (typeof database.Companies[data.name].orders == "undefined") {
+                    if (database.Companies[data.name].orders == undefined) {
                         database.Companies[data.name].orders = {};
                     }
 
@@ -230,9 +230,9 @@ wss.on('connection', function connection(ws) {
 
                     // We need to get the owner of the company that the user is buying from.
                     var owner = database.Users[database.Companies[data.name].owner];
-
+                    log(owner)
                     // If the owner does not have a notifications object, we need to create one.
-                    if (typeof owner.Notifications == "undefined") {
+                    if (owner.Notifications == undefined) {
                         owner.Notifications = [];
                     }
 
@@ -252,7 +252,7 @@ wss.on('connection', function connection(ws) {
                     database.Users[user.Username] = user;
 
                     // We can log the user object for debugging purposes.
-                    log(user);
+                    log(owner.Notifications);
 
                     // We need to write the updated database to a file.
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database));
@@ -310,7 +310,7 @@ wss.on('connection', function connection(ws) {
                 log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
             }
-
+            fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
         } catch (e) {
             try {
                 log(`Error In Connection From ${users[data.id][1].Username}:\n${e.message}`)

@@ -42,7 +42,7 @@ node ./server/session.js
 Pull requests are welcome. For major changes, please open an issue first
 to discuss what you would like to change.
 
-I would caution you to use a Large Learning Model such as [ChatGPT](https://chat.openai.com) or Google's [Bard](https://bard.google.com) to try to understand the code, because I had no time to comment and clean it up. If you choose not, then I wish you the best of luck beacuse this repo is a mess. (I have a personal deadline of May 15th)  
+I would caution you to use a Large Learning Model such as [ChatGPT](https://chat.openai.com) or Google's [Bard](https://bard.google.com) to try to understand the code, because I had no time to comment and clean it up. If you choose not, then I wish you the best of luck beacuse this repo is a mess. (I have a personal deadline of May 27th)  
 
 ## Future
 After the inital relase it will be hosted on [Heroku](https://www.heroku.com) for a time. I will be updating the project till June 28th. Past then, I really don't know.

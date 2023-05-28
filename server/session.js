@@ -40,8 +40,8 @@ function log(data) {
     //console.log(year + "-" + month + "-" + date);
 
     // prints date & time in YYYY-MM-DD HH:MM:SS format
-    console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "| Log from method: " + functionName + "():\n" + data);
-
+    console.log(year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds + "| Log from method: " + functionName + "():\n");
+    console.log(data)
 }
 wss.on('connection', function connection(ws) {
     ws.on('error', console.error);
@@ -65,8 +65,10 @@ wss.on('connection', function connection(ws) {
             } else if (data.type === 'createComp') {
                 var user = users[data.id]
                 database.Companies[data.name].owner = user.Username
-                user[1].Companies.push(data.name)
-                user[1].Stocks[data.name] = 100
+                if (!(user[1].Companies.includes(data.name))) {
+                    user[1].Companies.push(data.name)
+                    user[1].Stocks[data.name] = 100
+                }
                 database.Users[user[1].Username] = user[1]
                 log(user)
                 fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
@@ -95,15 +97,15 @@ wss.on('connection', function connection(ws) {
                         user.Companies.splice(user.Companies.indexOf(data.name), 1)
                     }
                     var owner = database.Users[database.Companies[data.name].owner]
-                var notifications = owner.Notifications;
-                notifications.push({
-                    'type': 'buyStock',
-                    'user': user.Username,
-                    'amount': data.amount,
-                    'cost': data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks),
-                    'company': compName
-                });
-                database.Users[owner.Username] = owner
+                    var notifications = owner.Notifications;
+                    notifications.push({
+                        'type': 'buyStock',
+                        'user': user.Username,
+                        'amount': data.amount,
+                        'cost': data.amount * (database.Companies[data.name].worth / database.Companies[data.name].stocks),
+                        'company': compName
+                    });
+                    database.Users[owner.Username] = owner
                     database.Users[user.Username] = user
                     log(user)
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database))
@@ -155,7 +157,7 @@ wss.on('connection', function connection(ws) {
                     fileName: `${data.name}PrdtImg.${imageType}`,
                     data: data.image.replace(`data:image/${imageType};base64,`, '')
                 }
-                fs.writeFileSync(`${__dirname.replace('/server','')}/client/images/Companies/${image.fileName}`, image.data, 'base64');
+                fs.writeFileSync(`${__dirname.replace('/server', '')}/client/images/Companies/${image.fileName}`, image.data, 'base64');
                 if (user.Companies.includes(data.company)) {
                     products[data.name] = {
                         'name': data.name,
@@ -182,11 +184,12 @@ wss.on('connection', function connection(ws) {
                     });
                 }
 
-                log(JSON.stringify(data));
-                log(users);
+                //log(JSON.stringify(data));
+                //log(users);
                 var user = users[data.id][1];
                 var compName = data.name;
-                log(database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price)
+                log(database.Companies[data.name].products[data.product].quantity > 0)
+                log(user.Balance >= data.amount * database.Companies[data.name].products[data.product].price)
                 if (database.Companies[data.name].products[data.product].quantity > 0 && user.Balance >= data.amount * database.Companies[data.name].products[data.product].price) {
                     // This code handles the purchase of a product.
                     database.Companies[data.name].products[data.product].quantity -= data.amount
@@ -230,12 +233,12 @@ wss.on('connection', function connection(ws) {
 
                     // We need to get the owner of the company that the user is buying from.
                     var owner = database.Users[database.Companies[data.name].owner];
-                    log(owner)
+
                     // If the owner does not have a notifications object, we need to create one.
-                    if (owner.Notifications == undefined) {
+                    if (owner.Notifications == undefined || owner.Notifications == null) {
                         owner.Notifications = [];
                     }
-
+                    log(owner.Notifications)
                     // We need to add a new notification to the owner's notifications object.
                     var notifications = owner.Notifications;
                     notifications.push({
@@ -246,14 +249,14 @@ wss.on('connection', function connection(ws) {
                         'cost': data.amount * database.Companies[data.name].products[data.product].price,
                         'company': compName
                     });
-
+                    log(notifications)
                     // We need to update the database with the new order.
                     database.Users[owner.Username] = owner;
                     database.Users[user.Username] = user;
 
                     // We can log the user object for debugging purposes.
-                    log(owner.Notifications);
-
+                    //log(owner);
+                    log(`database:/n${database}`)
                     // We need to write the updated database to a file.
                     fs.writeFileSync(`${__dirname}/data/data.json`, JSON.stringify(database));
 
@@ -267,8 +270,8 @@ wss.on('connection', function connection(ws) {
                     ws.send('Nothing left');
                 }
             } else if (data.type === 'buyProduct') {
-                log(JSON.stringify(data))
-                log(users)
+                //log(JSON.stringify(data))
+                //log(users)
                 var user = users[data.id][1]
                 var compName = data.name
 

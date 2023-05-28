@@ -1,20 +1,23 @@
-document.getElementById('company-form-submit').addEventListener('click', async function () {
-    async function processImage(id) {
+document.getElementById('company-form-submit').addEventListener('click', async function() {
+    async function processImage(id){
 
         const fileSelector = document.getElementById(id);
         var file = document.getElementById(id).files[0]
-
+    
         async function readFile(file) {
             return new Promise((resolve, reject) => {
-
+                try{
                 var reader = new FileReader();
-                reader.loadend = function () { }
+                reader.loadend = function () {}
                 reader.onload = function (e) {
                     var rawData = e.target.result;
                     console.log(rawData);
                     resolve(rawData)
                 }
                 reader.readAsDataURL(file);
+            }catch{
+                return;
+            }
             })
         }
         var res = await readFile(file)
@@ -34,13 +37,11 @@ document.getElementById('company-form-submit').addEventListener('click', async f
             };
         });
     }
-    async function getFields() {
-        var name = document.getElementById('name-field').value
-        var dic = document.getElementById('dic-field').value
-        var fields = {
-            type: "createCompany", name, "description": dic,
-            "image": await processImage('fileUpload'), id: sessionStorage.getItem("sessionId")
-        }
+    async function getFields(){
+        var name= document.getElementById('name-field').value
+        var dic= document.getElementById('dic-field').value
+        var fields = {type:"editCompany",name,"description":dic,
+        "image":await processImage('fileUpload'),id:sessionStorage.getItem("sessionId")}
         return fields
     }
     var url //= location.host
@@ -48,9 +49,8 @@ document.getElementById('company-form-submit').addEventListener('click', async f
     var res = await getFields()
     var upload = await connection(JSON.stringify(res), `${url}`)
     console.log(`${location.host}/html/stocks.html`)
-
-    if (upload === 'complete') {
-
+   
+    if(upload==='complete'){
+        
         window.location.replace(`http://${location.host}/html/stocks.html`)
-    }
-})
+}})
